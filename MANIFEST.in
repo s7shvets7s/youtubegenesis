@@ -1,0 +1,21 @@
+include LICENSE README.md
+include .gitignore .gitattributes
+recursive-include .github *.md *.yml
+recursive-include requirements *.txt
+recursive-include config .env.example
+recursive-include scripts *.py *.cmd *.ps1
+exclude scripts/recover_capcut_motionblur.py
+recursive-include tests *.py *.json
+recursive-include docs *.md
+exclude docs/*feasibility.md docs/*discovery*.md
+prune docs/templates
+include source/music/README.md source/music/catalog.json
+recursive-include src/ru_en_dubber *.py *.json *.js *.html *.css
+prune channels
+prune jobs
+prune voices
+prune avatars
+prune third_party
+prune .agents
+prune .runtime
+prune graphify-out

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dubber · Студия</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="#pipeline"><span class="brand-mark">D</span> Dubber <span class="muted">studio</span></a>
+  <p class="nav-caption">Рабочее пространство</p>
+  <nav>
+    <a href="#pipeline" id="nav-pipeline">Пайплайн <span>01</span></a>
+    <a href="#channels" id="nav-channels">Каналы <span>02</span></a>
+  </nav>
+  <div class="sidebar-bottom"><span class="status-dot"></span> Локальная обработка<p id="workspace"></p></div>
+</aside>
+<main>
+  <header><div><p class="eyebrow">RU → EN / ВИДЕОПРОИЗВОДСТВО</p><h1 id="page-title">Пайплайн</h1></div><span id="connection" role="status">Подключение…</span></header>
+  <div id="error" class="error" role="alert" hidden></div>
+
+  <section id="pipeline-view">
+    <div class="intro"><h2>От исходника до монтажного пакета</h2><p>Выберите канал и назовите ролик. Технические ID и папки студия создаст сама.</p></div>
+    <div class="workspace-grid">
+      <form id="pipeline-form">
+        <section class="panel">
+          <div class="panel-heading"><h2>Источник и запуск</h2><span>01</span></div>
+          <div class="fields">
+            <label>Ваш канал<select id="channel-select" required></select><small>Канал определяет папку исследований, сценариев и роликов.</small></label>
+            <label>Режим запуска<select id="mode"><option value="new">Новый ролик из видео</option><option value="script">Готовый сценарий из каталога</option><option value="script_import">Импорт внешнего сценария</option><option value="resume">Продолжить с распознавания</option><option value="translate">Начать с перевода</option><option value="tts">Повторить озвучку</option><option value="export">Повторить экспорт</option></select></label>
+            <label class="wide" id="video-title-label">Рабочее название ролика<input id="video-title" maxlength="160" placeholder="Например: Почему исчез старый Нью-Йорк"><small>Это название будет видно в каталоге; папка получит понятный slug и короткий стабильный ID.</small></label>
+            <label id="existing-video-label" hidden><span id="existing-video-caption">Ролик</span><select id="existing-video"></select><small id="script-readiness" hidden></small></label>
+            <label id="existing-run-label" hidden>Запуск<select id="existing-run"></select></label>
+            <label class="wide" id="source-label">Ссылка YouTube или путь к видео<input id="source" placeholder="https://youtube.com/watch?v=… или source/video.mp4"><small>Локальные исходники должны находиться в папке проекта.</small></label>
+            <label class="wide" id="script-label" hidden>Английский сценарий<textarea id="script-text" rows="12" placeholder="Вставьте текст, который должен прозвучать в видео…"></textarea><small>Озвучиваться будет весь текст. Заголовки и заметки для редактора удалите.</small></label>
+            <label class="wide" id="script-file-label" hidden>Или загрузите файл .txt / .md<input id="script-file" type="file" accept=".txt,.md,text/plain,text/markdown"><small>UTF-8, до 128 КБ. Текст можно править перед запуском.</small></label>
+            <label class="wide" id="script-output-label" hidden>Результат сценария<select id="script-output"><option value="video">Видео + озвучка</option><option value="audio">Озвучка WAV + SRT</option><option value="capcut">CapCut / Veo: озвучка по сценам + SRT</option></select><small>Используется CAPCUT_BEATS.srt. В настройках озвучки выберите длительность сцены: 0 сохраняет исходные таймкоды, 4, 8, 10 или другое число от 2 до 30 создаёт равные окна. Если реплика не помещается, запуск сообщит об ошибке. Видеоряд, музыка и пакет Premiere не создаются.</small></label>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h2>Настройки пайплайна</h2><span id="settings-count"></span></div>
+          <div class="preset-bar"><button type="button" id="save-preset">Сохранить настройки</button><button type="button" id="load-preset">Загрузить</button><button type="button" id="reset-preset">По умолчанию</button></div>
+          <label class="search-label"><input id="settings-search" type="search" placeholder="Найти настройку…" aria-label="Поиск настроек"></label>
+          <div id="settings"></div>
+        </section>
+        <div class="launch-bar"><span id="form-note">Все изменения применяются к следующему запуску.</span><button id="launch" class="primary" type="submit">Запустить пайплайн <span>↗</span></button></div>
+      </form>
+      <aside class="monitor panel"><div class="panel-heading"><h2>Обработка</h2><span id="run-status">Ожидание</span></div><div id="progress-content"><div class="empty"><h3>Можно начинать</h3><p>Здесь появятся этапы, текущая операция и прогресс обработки.</p></div></div></aside>
+    </div>
+  </section>
+
+  <section id="channels-view" hidden>
+    <form id="channel-form" class="panel compact-form"><label>Название нового канала<input id="new-channel-name" maxlength="160" placeholder="Например: История городов" required></label><button class="primary" type="submit">Создать канал</button></form>
+    <div class="catalog-toolbar"><input id="channel-search" type="search" placeholder="Найти канал…" aria-label="Найти канал"><button id="refresh-channels">Обновить</button></div>
+    <p id="channel-warnings" role="status"></p><div id="channel-list"></div>
+  </section>
+  <section id="channel-view" hidden><a href="#channels" class="back">← Все каналы</a><div id="channel-content"></div></section>
+  <section id="video-view" hidden><a id="video-back" href="#channels" class="back">← Канал</a><div id="video-content"></div></section>
+  <section id="run-view" hidden><a id="run-back" href="#channels" class="back">← Ролик</a><div id="job-content"></div></section>
+  <footer>Материалы хранятся в папке <code>channels</code>: отдельно по каналам, роликам и запускам.</footer>
+</main>
+</body>
+</html>

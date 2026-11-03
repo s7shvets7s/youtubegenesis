@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "job_id": "synthetic-sponsor",
+  "purpose": "Synthetic regression fixture for a spoken sponsor segment and visual tail.",
+  "expected_source_range": {
+    "start": 66.9,
+    "end": 140.507,
+    "kind": "paid_sponsor",
+    "brand": "Example Studio"
+  },
+  "known_incomplete_range": {
+    "start": 78.208,
+    "end": 96.812
+  },
+  "evidence": {
+    "sponsor_lead_in": {
+      "start": 66.966,
+      "text": "A production team needs several tools to finish a project."
+    },
+    "explicit_brand_intro": {
+      "start": 78.208,
+      "text": "Example Studio can help with this task."
+    },
+    "last_spoken_product_claim_end": 128.447,
+    "visual_promo_tail": {
+      "start": 128.447,
+      "end": 140.507,
+      "observed_text": [
+        "CREATE WITH SOUND"
+      ]
+    },
+    "main_topic_return": {
+      "shot_start": 140.507,
+      "speech_start": 140.662,
+      "text": "Now we return to the main topic."
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "job": {
+    "id": "premiere-smoke",
+    "source_file": "source.mp4",
+    "source_url": null,
+    "status": "completed",
+    "created_at": "2026-09-01T00:00:00+00:00",
+    "updated_at": "2026-09-01T00:00:00+00:00",
+    "error": null
+  },
+  "segments": [
+    {
+      "id": 1,
+      "speaker": "SPEAKER_00",
+      "start": 0.5,
+      "end": 5.5,
+      "duration": 5.0,
+      "ru": "Новый конвейер дубляжа готов к настоящей проверке голоса.",
+      "en": "The new dubbing pipeline is ready for a real voice test.",
+      "tts_file": "tts/000001.wav",
+      "tts_duration": 4.04
+    }
+  ],
+  "completed_stages": [
+    "transcription",
+    "translation",
+    "tts"
+  ],
+  "artifacts": {
+    "source_video": "source.mp4",
+    "background": "background.wav",
+    "tts_report": "tts.json",
+    "tts_segments": "tts"
+  },
+  "metadata": {
+    "tts": {
+      "provider": "chatterbox",
+      "sample_rate": 24000,
+      "device": "cuda"
+    }
+  }
+}

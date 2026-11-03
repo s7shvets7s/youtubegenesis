@@ -1,0 +1,5 @@
+# Quality tooling used by .github/workflows/quality.yml.
+# Runtime and GPU dependencies remain split across the dedicated requirements files.
+bandit[toml]==1.9.4
+coverage==7.10.6
+ruff==0.12.12

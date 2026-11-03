@@ -1,0 +1,4 @@
+# Install PyTorch/Torchaudio from the CUDA index before this file.
+demucs==4.1.0
+SoundFile>=0.13,<1
+

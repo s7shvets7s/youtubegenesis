@@ -1,0 +1,24 @@
+name: Bug report
+description: Report a reproducible pipeline or UI problem
+body:
+  - type: markdown
+    attributes:
+      value: Use synthetic inputs. Remove tokens, personal paths, voices, and private content.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal command or synthetic example and the failing stage.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and redacted logs
+      description: Windows, Python, package, FFmpeg, and GPU/model versions where relevant.
