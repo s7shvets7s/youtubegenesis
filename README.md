@@ -1,12 +1,15 @@
 # RU → EN Dubber
 
-**Turn an English script into a finished, editable video — or dub a Russian video into English.**
+**Make a finished, editable video from an English script — entirely on your own machine.**
 
-A local Windows pipeline that builds an editable Adobe Premiere package from an
-English narration script: voice synthesis, timing, rebuilt visuals, music, and an
-optional avatar. The same pipeline also dubs a Russian video or YouTube URL into
-English (transcription → translation → the same finishing stages). Keep the source,
-inspect each stage, and refine the edit.
+The main workflow: paste or upload an **English narration script** and the pipeline
+builds an editable Adobe Premiere package — speech synthesis, timing, rebuilt
+visuals, music and an optional talking avatar — with no source footage required.
+You can also route it to a voice WAV + SRT or to CapCut/Veo scene beats.
+
+As a secondary mode it can dub an existing Russian video or YouTube URL into
+English, reusing the same finishing stages. Either way you keep the source and can
+inspect and refine every stage.
 
 **Beta · Windows · Python 3.11+ · MIT**
 
@@ -14,11 +17,12 @@ inspect each stage, and refine the edit.
 
 ## Why use it?
 
-- **Script → video.** Paste or upload an English script and get a voiced,
+- **Script → video (main).** Paste or upload an English script and get a voiced,
   rebuilt-visual video with captions — or a voice WAV + SRT, or CapCut/Veo scene
   beats. No source footage required.
-- **Russian → English dub.** Point it at a Russian video or YouTube URL and it
-  transcribes (WhisperX), translates (Qwen via llama.cpp) and voices the result.
+- **Optional: Russian → English dub.** Point it at a Russian video or YouTube URL
+  and it transcribes (WhisperX), translates (Qwen via llama.cpp) and voices the
+  result through the same finishing stages.
 - **Editable delivery.** Export FCP 7 XML, separate voice/background tracks, media,
   captions, and reports rather than a single flattened video.
 - **Inspectable runs.** A portable `manifest.json` records stage state and relative
@@ -81,7 +85,7 @@ are installed separately; not every stage has a CPU fallback.
 
 Automated checks cover contracts, path/download safety, stage composition, UI
 services, export structure, and selected FFmpeg processing. They do **not** establish
-CUDA compatibility, live-provider availability, dubbing quality, or successful
+CUDA compatibility, live-provider availability, output quality, or successful
 imports into Premiere. Review the [release status and manual checks](docs/release.md).
 
 Ad removal defaults to `remove` with a confidence threshold of `0.85`; review the
