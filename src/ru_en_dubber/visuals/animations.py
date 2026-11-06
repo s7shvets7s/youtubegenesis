@@ -348,7 +348,7 @@ class AnimationPlanStage(PipelineStage):
         for artifact in ("music_report", "music_bed", "music_plan", "music_candidates", "music_credits"):
             manifest.artifacts.pop(artifact, None)
         manifest.metadata.pop("music_bed", None)
-        self.report_progress(0.99, f"План анимаций: {len(specs)}")
+        self.report_progress(0.99, f"Animation plan: {len(specs)}")
         return manifest
 
     def plan_specs(

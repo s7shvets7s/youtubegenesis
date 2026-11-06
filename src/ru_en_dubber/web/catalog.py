@@ -29,7 +29,7 @@ def summary(
         "created_at": manifest.job.created_at.isoformat(),
         "updated_at": manifest.job.updated_at.isoformat(),
         "source": (
-            "Английский сценарий"
+            "English script"
             if is_script
             else (
                 manifest.job.source_url
@@ -133,7 +133,7 @@ def media_path(
         or target.suffix.lower() not in MEDIA
         or not target.is_file()
     ):
-        raise FileNotFoundError("Медиафайл не найден")
+        raise FileNotFoundError("Media file not found")
     return target
 
 

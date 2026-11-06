@@ -157,11 +157,11 @@ class PremiereExportStage(PipelineStage):
         voice_dir.mkdir(parents=True, exist_ok=True)
         overlay_dir.mkdir(parents=True, exist_ok=True)
 
-        self.report_progress(0.02, "Чтение параметров исходного видео…")
+        self.report_progress(0.02, "Reading source video parameters…")
         media = self._probe(ffprobe, source)
         self._active_backend = self._select_render_backend(ffmpeg, source, media)
         detection_path = export_dir / "shot-detection.json"
-        self.report_progress(0.05, "Локальный поиск монтажных склеек…")
+        self.report_progress(0.05, "Local search for edit cuts…")
         probed_duration = float(media.get("format", {}).get("duration") or 0.0)
         detection = self._detect_shots(
             python,
@@ -203,11 +203,11 @@ class PremiereExportStage(PipelineStage):
                 fallback_reason="static text cleanup uses a CPU spatial filter"
             )
 
-        self.report_progress(0.12, f"Найдено эпизодов: {len(episodes)}")
+        self.report_progress(0.12, f"Episodes found: {len(episodes)}")
         assert self._active_backend is not None
         self.report_progress(
             None,
-            "Рендер эпизодов: "
+            "Rendering episodes: "
             f"{self._active_backend.decoder} decode → {self._active_backend.encoder}",
         )
         rendered = self._render_episodes(
@@ -242,7 +242,7 @@ class PremiereExportStage(PipelineStage):
         })
         avatar_overlay = self._copy_avatar_overlay(manifest, job_dir, overlay_dir)
 
-        self.report_progress(0.90, "Создание таблиц и XML для Premiere…")
+        self.report_progress(0.90, "Building tables and XML for Premiere…")
         self._write_scenes_csv(export_dir / "scenes.csv", rendered, export_segments)
         self._write_dialogue_csv(
             export_dir / "dialogue.csv", export_segments, dialogue_files, rendered
@@ -321,8 +321,8 @@ class PremiereExportStage(PipelineStage):
         manifest.metadata["premiere_export"] = report
         self.report_progress(
             0.99,
-            f"Пакет Premiere готов: {len(rendered)} эпизодов и "
-            f"{len(dialogue_files)} реплик",
+            f"Premiere package ready: {len(rendered)} episodes and "
+            f"{len(dialogue_files)} lines",
         )
         return manifest
 
@@ -699,7 +699,7 @@ class PremiereExportStage(PipelineStage):
             rendered.append(replace(episode, path=output))
             self.report_progress(
                 0.12 + 0.68 * position / len(episodes),
-                f"Нарезано {position} из {len(episodes)} видеоэпизодов",
+                f"Cut {position} of {len(episodes)} video episodes",
             )
         for localization in localizations:
             required = set(localization.pop("_required_episode_ids", []))

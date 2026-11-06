@@ -17,25 +17,25 @@ from rich.rule import Rule
 
 
 STAGE_LABELS = {
-    "content_analysis": "Анализ содержимого и сцен",
-    "animation_plan": "Планирование анимации",
-    "tts": "Синтез озвучки",
-    "speech_postprocess": "Обработка голоса и контроль громкости",
-    "timing_alignment": "Синхронизация реплик",
-    "script_timing": "Таймлайн по готовой озвучке",
-    "narration_export": "Сборка общего аудиофайла",
-    "subtitle_export": "Экспорт субтитров SRT",
-    "visual_rebuild": "Подготовка видеоряда",
-    "avatar_overlay": "Говорящий аватар",
-    "music_bed": "Фоновая музыка",
-    "premiere_export": "Монтажный пакет Premiere",
-    "youtube_download": "Загрузка с YouTube",
-    "audio_extraction": "Извлечение аудио",
-    "source_separation": "Разделение голоса и фона",
-    "transcription": "Распознавание русской речи",
-    "translation": "Перевод и адаптация RU → EN",
-    "fake_transcription": "Тестовая транскрибация",
-    "fake_translation": "Тестовый перевод",
+    "content_analysis": "Content and scene analysis",
+    "animation_plan": "Animation planning",
+    "tts": "Speech synthesis",
+    "speech_postprocess": "Voice processing and loudness",
+    "timing_alignment": "Line synchronization",
+    "script_timing": "Timeline from ready narration",
+    "narration_export": "Assembling the master audio",
+    "subtitle_export": "SRT subtitle export",
+    "visual_rebuild": "Building the visual track",
+    "avatar_overlay": "Talking avatar",
+    "music_bed": "Background music",
+    "premiere_export": "Premiere editing package",
+    "youtube_download": "YouTube download",
+    "audio_extraction": "Audio extraction",
+    "source_separation": "Voice and background separation",
+    "transcription": "Russian speech recognition",
+    "translation": "Translation and adaptation RU → EN",
+    "fake_transcription": "Test transcription",
+    "fake_translation": "Test translation",
 }
 
 
@@ -91,7 +91,7 @@ class ConsolePipelineProgress:
         self._stage_count = stage_count
         self._completed_stages = 0
         self._console.print(Rule("[bold cyan]RU → EN Dubber[/]", style="cyan"))
-        self._console.print(f"[dim]Задание:[/] [bold]{job_id}[/]\n")
+        self._console.print(f"[dim]Job:[/] [bold]{job_id}[/]\n")
         self._progress = Progress(
             SpinnerColumn(style="cyan"),
             TextColumn("{task.description}", justify="left"),
@@ -111,9 +111,9 @@ class ConsolePipelineProgress:
         )
         self._progress.start()
         self._overall_task = self._progress.add_task(
-            "[bold]Весь пайплайн[/]",
+            "[bold]Whole pipeline[/]",
             total=stage_count,
-            status=f"0 из {stage_count}",
+            status=f"0 of {stage_count}",
         )
 
     def start_stage(self, name: str, index: int, stage_count: int) -> None:
@@ -125,7 +125,7 @@ class ConsolePipelineProgress:
             f"[cyan]  {index}/{stage_count}[/] {label}",
             total=None,
             completed=0,
-            status="Подготовка…",
+            status="Preparing…",
         )
 
     def update_stage(self, fraction: float | None, message: str | None = None) -> None:
@@ -157,7 +157,7 @@ class ConsolePipelineProgress:
             total=100,
             completed=100,
             description=f"[green]✓ {self._stage_index}/{self._stage_count}[/] {label}",
-            status="Готово",
+            status="Done",
             refresh=True,
         )
         if self._overall_task is not None:
@@ -165,7 +165,7 @@ class ConsolePipelineProgress:
             self._progress.update(
                 self._overall_task,
                 completed=self._completed_stages,
-                status=f"{self._completed_stages} из {self._stage_count}",
+                status=f"{self._completed_stages} of {self._stage_count}",
                 refresh=True,
             )
 
@@ -176,7 +176,7 @@ class ConsolePipelineProgress:
         self._progress.update(
             self._stage_task,
             description=f"[red]✗ {self._stage_index}/{self._stage_count}[/] {label}",
-            status=f"Ошибка: {type(error).__name__}",
+            status=f"Error: {type(error).__name__}",
             refresh=True,
         )
 
@@ -185,9 +185,9 @@ class ConsolePipelineProgress:
             self._progress.stop()
             self._progress = None
         if success:
-            self._console.print("\n[bold green]✓ Пайплайн завершён успешно[/]")
+            self._console.print("\n[bold green]✓ Pipeline finished successfully[/]")
         else:
-            self._console.print("\n[bold red]✗ Пайплайн остановлен из-за ошибки[/]")
+            self._console.print("\n[bold red]✗ Pipeline stopped due to an error[/]")
 
     def _require_progress(self) -> Progress:
         if self._progress is None:

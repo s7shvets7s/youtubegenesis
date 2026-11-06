@@ -62,7 +62,7 @@ class FFmpegAudioExtractionStage(PipelineStage):
         return "audio_extraction"
 
     def run(self, manifest: Manifest, job_dir: Path) -> Manifest:
-        self.report_progress(0.03, "Поиск FFmpeg…")
+        self.report_progress(0.03, "Locating FFmpeg…")
         ffmpeg = self._resolve_executable(self._ffmpeg)
         ffprobe = self._resolve_executable(self._ffprobe)
         try:
@@ -77,7 +77,7 @@ class FFmpegAudioExtractionStage(PipelineStage):
         except MediaSecurityError as error:
             raise FFmpegExecutionError(str(error)) from error
 
-        self.report_progress(0.08, "Чтение параметров видео…")
+        self.report_progress(0.08, "Reading video parameters…")
         media_info = self._probe(ffprobe, source_path)
         audio_streams = [
             stream
@@ -124,7 +124,7 @@ class FFmpegAudioExtractionStage(PipelineStage):
             str(self._channels),
             str(output_path),
         ]
-        self.report_progress(None, "Извлечение PCM-аудио 48 кГц…")
+        self.report_progress(None, "Extracting 48 kHz PCM audio…")
         result = subprocess.run(
             command,
             capture_output=True,
@@ -143,7 +143,7 @@ class FFmpegAudioExtractionStage(PipelineStage):
         if not output_path.is_file() or output_path.stat().st_size == 0:
             raise FFmpegExecutionError("FFmpeg completed but audio.wav was not created")
 
-        self.report_progress(0.92, "Проверка аудиофайла…")
+        self.report_progress(0.92, "Checking the audio file…")
         source_format = media_info.get("format", {})
         source_audio = audio_streams[0]
         manifest.artifacts["extracted_audio"] = self._output_name
@@ -159,7 +159,7 @@ class FFmpegAudioExtractionStage(PipelineStage):
             "sample_rate": self._sample_rate,
             "channels": self._channels,
         }
-        self.report_progress(0.98, "Аудио извлечено")
+        self.report_progress(0.98, "Audio extracted")
         return manifest
 
     @staticmethod

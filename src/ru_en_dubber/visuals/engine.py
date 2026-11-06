@@ -174,7 +174,7 @@ def run(stage, manifest, job_dir):
         write_json(directory / "provider-report.json", report)
 
     for i, (beat, request) in enumerate(zip(beats, requests)):
-        stage.report_progress(0.04 + 0.84 * i / len(requests), f"Подбор видеоряда: {i+1}/{len(requests)}")
+        stage.report_progress(0.04 + 0.84 * i / len(requests), f"Matching visuals: {i+1}/{len(requests)}")
         clip = (directory / "animations" / f"episode-{beat.episode_index:04d}.mp4"
                 if beat.action == "replace_animation" and beat.episode_index in animation_specs
                 else clips_dir / f"beat-{request.index:04d}.mp4")
@@ -281,7 +281,7 @@ def run(stage, manifest, job_dir):
                       "asset": selected.to_dict() if selected else None, "clip_sha256": file_hash(clip)})
         clips.append(clip)
         checkpoint()
-    stage.report_progress(0.90, "Сборка нового видеоряда…")
+    stage.report_progress(0.90, "Assembling the new visual track…")
     temporary = output.with_name("rebuilt-video.pending.mp4")
     stage._concat_clips(
         ffmpeg, clips, temporary,
@@ -318,7 +318,7 @@ def run(stage, manifest, job_dir):
     manifest.metadata.pop("avatar", None)
     manifest.metadata.pop("music_bed", None)
     manifest.metadata.pop("premiere_export", None)
-    stage.report_progress(0.99, f"Видеоряд готов; без точного материала: {manifest.metadata['visual_rebuild']['no_safe_match_count']}")
+    stage.report_progress(0.99, f"Visuals ready; without exact material: {manifest.metadata['visual_rebuild']['no_safe_match_count']}")
     return manifest
 
 

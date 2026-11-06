@@ -234,7 +234,7 @@ class MusicBedStage(PipelineStage):
                 fingerprint_value=source_key,
             )
 
-        self.report_progress(0.05, "Qwen составляет музыкальный профиль ролика…")
+        self.report_progress(0.05, "Qwen builds the music profile of the video…")
         try:
             plan = self._plan(manifest, job_dir, duration)
         except (OSError, ValueError, TranslationError, MusicBedError) as error:
@@ -245,7 +245,7 @@ class MusicBedStage(PipelineStage):
             )
         write_json(plan_path, {"version": 1, "timeline_duration": duration, **plan})
 
-        self.report_progress(0.28, "Выбор музыки из локальной библиотеки…")
+        self.report_progress(0.28, "Selecting music from the local library…")
         selected = self._local_candidates(catalog, usable, plan, ffprobe)
         candidate_report = {
             "version": 1,
@@ -264,7 +264,7 @@ class MusicBedStage(PipelineStage):
         total = sum(item[1] for item in selected)
         provider_events: list[dict[str, Any]] = []
         if total < required and self.mode == "hybrid" and self.jamendo_client_id:
-            self.report_progress(0.42, "Поиск недостающей музыки через Jamendo…")
+            self.report_progress(0.42, "Searching missing music via Jamendo…")
             transport = Transport(music_dir / "api-cache", budget=self.request_budget)
             provider = JamendoProvider(transport, self.jamendo_client_id)
             try:
@@ -339,7 +339,7 @@ class MusicBedStage(PipelineStage):
         credits = self._credits(playlist)
         write_json(credits_path, {"version": 1, "tracks": credits})
 
-        self.report_progress(0.72, "Сборка отдельной музыкальной дорожки…")
+        self.report_progress(0.72, "Assembling a separate music track…")
         try:
             self._render(ffmpeg, [copied[item[0].id] for item in playlist],
                          [item[1] for item in playlist], bed_path, duration)
@@ -372,7 +372,7 @@ class MusicBedStage(PipelineStage):
             manifest, job_dir, report_path, report, bed_path, plan_path,
             credits_path, candidates_path,
         )
-        self.report_progress(0.99, f"Музыкальная дорожка готова: {len(entries)} фрагментов")
+        self.report_progress(0.99, f"Music track ready: {len(entries)} fragments")
         return manifest
 
     def _plan(self, manifest: Manifest, job_dir: Path, duration: float) -> dict[str, Any]:
@@ -618,7 +618,7 @@ class MusicBedStage(PipelineStage):
             manifest, job_dir, report_path, report, None, plan_path, None,
             candidates_path,
         )
-        self.report_progress(0.99, "Подходящая безопасная музыка не найдена; экспорт продолжится")
+        self.report_progress(0.99, "No suitable safe music found; export continues")
         return manifest
 
     @staticmethod

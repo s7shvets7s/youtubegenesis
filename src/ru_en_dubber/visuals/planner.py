@@ -108,7 +108,7 @@ class VisualPlanner:
                     process, log = runtime._start_server(executable, model, port, directory / "visual-planner.log")
                     runtime._wait_until_ready(process, port, directory / "visual-planner.log")
                 if progress:
-                    progress(0.01 + 0.02 * i / len(base), f"Смысловой план: {i + 1}/{len(base)}")
+                    progress(0.01 + 0.02 * i / len(base), f"Semantic plan: {i + 1}/{len(base)}")
                 context = [r.narration for r in base[max(0, i-1):i+2]]
                 try:
                     payload = ground_generated_plan(self._request(port, request.narration, context), request)

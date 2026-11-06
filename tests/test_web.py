@@ -98,7 +98,7 @@ class ProgressTests(unittest.TestCase):
         self.assertEqual([f for f, _ in events], sorted(f for f, _ in events))
         self.assertAlmostEqual(events[-1][0], .94)
         self.assertIn("9/9", events[-1][1])
-        self.assertIn("проверки: 9", events[-1][1])
+        self.assertIn("need review: 9", events[-1][1])
 
     def test_invalid_later_shot_does_not_duplicate_earlier_results(self):
         stage = ContentAnalysisStage(server="unused", model=Path("unused"), python="unused", source_mode="hybrid")
@@ -378,7 +378,7 @@ class WebTests(unittest.TestCase):
             status="drafting",
         )
 
-        with self.assertRaisesRegex(ValueError, "итоговую проверку"):
+        with self.assertRaisesRegex(ValueError, "final review"):
             self.service.launch({
                 "mode": "script",
                 "channel_id": self.channel["id"],

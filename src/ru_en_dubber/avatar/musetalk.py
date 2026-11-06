@@ -194,9 +194,9 @@ class MuseTalkAvatarStage(PipelineStage):
         result_dir = directory / "musetalk-results"
         result_dir.mkdir(parents=True, exist_ok=True)
 
-        self.report_progress(0.03, "Сборка цельной речи для аватара…")
+        self.report_progress(0.03, "Assembling continuous speech for the avatar…")
         self._mix_dialogue(ffmpeg, dialogue, duration, speech)
-        self.report_progress(0.10, "Подготовка фронтального motion-video…")
+        self.report_progress(0.10, "Preparing the frontal motion video…")
         self._prepare_motion(ffmpeg, avatar_source, motion)
         config.write_text(
             "avatar:\n"
@@ -206,7 +206,7 @@ class MuseTalkAvatarStage(PipelineStage):
             encoding="utf-8",
         )
 
-        self.report_progress(0.15, "MuseTalk 1.5 FP16: синхронизация губ…")
+        self.report_progress(0.15, "MuseTalk 1.5 FP16: lip sync…")
         command = [
             python,
             "-m",
@@ -276,9 +276,9 @@ class MuseTalkAvatarStage(PipelineStage):
                 f"MuseTalk output is too short ({generated_duration:.2f}s for {duration:.2f}s)"
             )
 
-        self.report_progress(0.88, "Подготовка отдельного слоя аватара…")
+        self.report_progress(0.88, "Preparing a separate avatar layer…")
         self._render_overlay(ffmpeg, synced, overlay, duration)
-        self.report_progress(0.93, "Наложение круглого аватара на превью…")
+        self.report_progress(0.93, "Overlaying the round avatar on the preview…")
         self._composite(ffmpeg, base_video, synced, composite, width, height, duration)
         report = {
             "version": 1,
@@ -300,7 +300,7 @@ class MuseTalkAvatarStage(PipelineStage):
         report_path.write_text(
             json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
-        self.report_progress(0.99, "Локальный AI-аватар готов")
+        self.report_progress(0.99, "Local AI avatar ready")
         return self._apply_artifacts(
             manifest, job_dir, report, base_video, composite, synced, overlay
         )

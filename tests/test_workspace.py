@@ -90,7 +90,7 @@ class WorkspaceCatalogTests(unittest.TestCase):
             )
             changed = workspace.video_details(channel["id"], video["id"])
             self.assertFalse(changed["script_is_current"])
-            with self.assertRaisesRegex(ValueError, "изменился"):
+            with self.assertRaisesRegex(ValueError, "changed"):
                 workspace.read_ready_script(channel["id"], video["id"])
 
     def test_slugify_is_portable_and_bounded(self) -> None:

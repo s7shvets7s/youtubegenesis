@@ -62,14 +62,14 @@ class YouTubeDownloadStage(PipelineStage):
         return "youtube_download"
 
     def run(self, manifest: Manifest, job_dir: Path) -> Manifest:
-        self.report_progress(0.02, "Проверка ссылки…")
+        self.report_progress(0.02, "Checking the link…")
         source_url = manifest.job.source_url
         if source_url is None or not is_youtube_url(source_url):
             raise YouTubeDownloadError("job does not contain a supported YouTube URL")
 
         python = self._resolve_executable(self._python, "Python")
         ffmpeg = self._resolve_executable(self._ffmpeg, "FFmpeg")
-        self.report_progress(0.08, "Подготовка yt-dlp…")
+        self.report_progress(0.08, "Preparing yt-dlp…")
         output_path = job_dir / "source.mp4"
         if output_path.exists():
             raise YouTubeDownloadError(f"download target already exists: {output_path}")
@@ -108,7 +108,7 @@ class YouTubeDownloadStage(PipelineStage):
             command.extend(["--cookies-from-browser", self._cookies_from_browser])
         command.append(source_url)
 
-        self.report_progress(None, "Скачивание и объединение потоков…")
+        self.report_progress(None, "Downloading and merging streams…")
         result = subprocess.run(
             command,
             capture_output=True,
@@ -134,7 +134,7 @@ class YouTubeDownloadStage(PipelineStage):
         except MediaSecurityError as error:
             raise YouTubeDownloadError(str(error)) from error
 
-        self.report_progress(0.92, "Проверка загруженного видео…")
+        self.report_progress(0.92, "Checking the downloaded video…")
         metadata = self._parse_metadata(result.stdout)
         manifest.job.source_file = output_path.name
         manifest.artifacts["source_video"] = output_path.name
@@ -146,7 +146,7 @@ class YouTubeDownloadStage(PipelineStage):
             "webpage_url": metadata.get("webpage_url", source_url),
             "max_height": self._max_height,
         }
-        self.report_progress(0.98, "Видео готово")
+        self.report_progress(0.98, "Video ready")
         return manifest
 
     @staticmethod

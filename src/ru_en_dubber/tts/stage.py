@@ -108,7 +108,7 @@ class ChatterboxTTSStage(PipelineStage):
             ]
         }
         self._write_json(input_path, input_payload)
-        self.report_progress(0.02, "Проверка окружения озвучки…")
+        self.report_progress(0.02, "Checking the voice environment…")
 
         command = [
             python,
@@ -133,7 +133,7 @@ class ChatterboxTTSStage(PipelineStage):
             assert self._model_dir is not None
             command += ["--model-dir", str(self._model_dir.expanduser().resolve())]
         environment = self._environment()
-        self.report_progress(0.05, "Загрузка модели и голосового образца…")
+        self.report_progress(0.05, "Loading the model and voice sample…")
         try:
             return_code, worker_output = self._run_worker(
                 command, environment, len(manifest.segments)
@@ -210,7 +210,7 @@ class ChatterboxTTSStage(PipelineStage):
         }
         self.report_progress(
             0.99,
-            f"Озвучено {len(items)} сегментов, длиннее тайминга: {len(over_timing)}",
+            f"Voiced {len(items)} segments, over timing: {len(over_timing)}",
         )
         return manifest
 
@@ -275,7 +275,7 @@ class ChatterboxTTSStage(PipelineStage):
             total = int(event.get("total", segment_count)) or segment_count
             self.report_progress(
                 0.08 + 0.88 * min(1.0, completed / total),
-                f"Озвучено {completed} из {total} сегментов",
+                f"Voiced {completed} of {total} segments",
             )
 
     @staticmethod

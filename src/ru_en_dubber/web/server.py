@@ -95,7 +95,7 @@ class Service:
                     if state["status"] in {"starting", "running"}:
                         state.update(
                             status="failed",
-                            error=f"Процесс завершился с кодом {process.returncode}",
+                            error=f"Process exited with code {process.returncode}",
                         )
                 elif process is None and state["status"] in {"starting", "running"}:
                     pid_path = directory / "worker.pid"
@@ -105,15 +105,15 @@ class Service:
                         state.update(
                             status="failed",
                             error=(
-                                "Процесс обработки прерван. Можно повторить "
-                                "запуск из сохранённого ролика."
+                                "Processing was interrupted. You can re-run "
+                                "from the saved video."
                             ),
                         )
                     else:
                         state["status"] = "untracked"
                         state["error"] = (
-                            "Сервер перезапущен. Дождитесь завершения процесса "
-                            "перед новым запуском."
+                            "The server restarted. Wait for the process to finish "
+                            "before a new run."
                         )
                 result.append(
                     {
@@ -153,18 +153,18 @@ class Service:
                 for run in self.snapshots()
             ):
                 raise ValueError(
-                    "Уже выполняется пайплайн. Дождитесь завершения, "
-                    "чтобы не перегружать GPU."
+                    "A pipeline is already running. Wait for it to finish "
+                    "to avoid overloading the GPU."
                 )
             if not isinstance(payload, dict):
-                raise ValueError("Ожидается объект настроек")
+                raise ValueError("A settings object is expected")
             channel_id = payload.get("channel_id", "")
             channel = self.workspace.channel_summary(
                 self.workspace.channel_directory(channel_id)
             )
             mode = payload.get("mode", "new")
             if mode not in LAUNCH_MODES:
-                raise ValueError("Неизвестный режим запуска")
+                raise ValueError("Unknown launch mode")
             created_video: Path | None = None
             script_path: Path | None = None
             script_content: bytes | None = None
@@ -187,7 +187,7 @@ class Service:
                         not beat_sheet.resolve().is_relative_to(video_directory.resolve())
                         or not beat_sheet.is_file()
                     ):
-                        raise ValueError("Для этого ролика нет CAPCUT_BEATS.srt")
+                        raise ValueError("This video has no CAPCUT_BEATS.srt")
                     script_content = beat_sheet.read_bytes()
                 run_id = self.workspace.new_run_id()
             else:
@@ -213,11 +213,11 @@ class Service:
                         or "\0" in script_text
                     ):
                         raise ValueError(
-                            "Вставьте английский сценарий или загрузите .txt/.md"
+                            "Paste an English script or upload a .txt/.md"
                         )
                     script_bytes = script_text.encode("utf-8")
                     if len(script_bytes) > 128_000:
-                        raise ValueError("Сценарий слишком большой: максимум 128 КБ")
+                        raise ValueError("The script is too large: maximum 128 KB")
                     video = self.workspace.save_script(
                         channel_id, video_id, script_text, status="ready"
                     )
@@ -248,7 +248,7 @@ class Service:
                         if not direction_source.resolve().is_relative_to(
                             video_directory.resolve()
                         ) or direction_source.stat().st_size > 128_000:
-                            raise ValueError("Файл режиссуры речи должен быть внутри ролика и до 128 КБ")
+                            raise ValueError("The voice-direction file must be inside the video and up to 128 KB")
                         direction_snapshot = directory / "direction-snapshot.json"
                         shutil.copyfile(direction_source, direction_snapshot)
                         argv += ["--tts-direction-file", str(direction_snapshot)]
@@ -410,7 +410,7 @@ def handler(service: Service):
                 )
                 self._media(target)
                 return
-            raise FileNotFoundError("Объект workspace не найден")
+            raise FileNotFoundError("Workspace object not found")
 
         def _media(self, target: Path) -> None:
             size = target.stat().st_size
@@ -464,29 +464,29 @@ def handler(service: Service):
                 )
             ):
                 self._json(
-                    {"error": "Обновите страницу для подтверждения локальной сессии"},
+                    {"error": "Refresh the page to confirm the local session"},
                     403,
                 )
                 return
             try:
                 size = int(self.headers.get("Content-Length", "0"))
                 if size <= 0 or size > 300_000:
-                    raise ValueError("Некорректный размер запроса")
+                    raise ValueError("Invalid request size")
                 payload = json.loads(self.rfile.read(size))
                 if not isinstance(payload, dict):
-                    raise ValueError("Ожидается объект настроек")
+                    raise ValueError("A settings object is expected")
                 if self.path == "/api/v1/runs":
                     self._json(service.launch(payload), 201)
                 elif self.path == "/api/v1/channels":
                     self._json(service.workspace.create_channel(payload.get("display_name", "")), 201)
                 else:
-                    raise FileNotFoundError("Метод не найден")
+                    raise FileNotFoundError("Method not found")
             except FileNotFoundError as error:
                 self._json({"error": str(error)}, 404)
             except (ValueError, TypeError, json.JSONDecodeError) as error:
                 self._json({"error": str(error)}, 400)
             except OSError:
-                self._json({"error": "Не удалось выполнить операцию"}, 500)
+                self._json({"error": "Could not complete the operation"}, 500)
 
     return Handler
 

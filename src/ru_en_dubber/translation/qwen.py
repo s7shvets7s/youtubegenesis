@@ -84,7 +84,7 @@ class QwenTranslationStage(PipelineStage):
         return "translation"
 
     def run(self, manifest: Manifest, job_dir: Path) -> Manifest:
-        self.report_progress(0.02, "Проверка модели Qwen…")
+        self.report_progress(0.02, "Checking the Qwen model…")
         if not manifest.segments:
             raise TranslationExecutionError("translation requires transcript segments")
 
@@ -96,13 +96,13 @@ class QwenTranslationStage(PipelineStage):
         port = self._reserve_port()
         log_path = job_dir / "translation-server.log"
         self._failure_log_path = job_dir / "translation-failures.jsonl"
-        self.report_progress(None, "Загрузка Qwen в видеопамять…")
+        self.report_progress(None, "Loading Qwen into VRAM…")
         process, log_file = self._start_server(server, model, port, log_path)
         try:
             self._wait_until_ready(process, port, log_path)
             ad_ranges: list[dict[str, Any]] = []
             if self._ad_removal_mode != "off":
-                self.report_progress(0.08, "Поиск рекламных интеграций…")
+                self.report_progress(0.08, "Finding ad integrations…")
                 word_timings = self._load_word_timings(
                     job_dir / str(manifest.artifacts.get("transcript") or "transcript.json")
                 )
@@ -119,13 +119,13 @@ class QwenTranslationStage(PipelineStage):
                         raise TranslationExecutionError(
                             "ad removal would remove the complete transcript"
                         )
-            self.report_progress(0.10, "Модель загружена, начинаю перевод…")
+            self.report_progress(0.10, "Model loaded, starting translation…")
             translations = self._translate_segments(manifest.segments, port)
         finally:
             self._stop_server(process)
             log_file.close()
 
-        self.report_progress(0.96, "Проверка полноты перевода…")
+        self.report_progress(0.96, "Checking translation completeness…")
         missing = [segment.id for segment in manifest.segments if segment.id not in translations]
         if missing:
             raise TranslationExecutionError(
@@ -250,7 +250,7 @@ class QwenTranslationStage(PipelineStage):
         }
         self.report_progress(
             0.99,
-            f"Переведено {len(manifest.segments)} сегментов, на проверку: {len(over_budget)}",
+            f"Translated {len(manifest.segments)} segments, to review: {len(over_budget)}",
         )
         return manifest
 
@@ -598,7 +598,7 @@ class QwenTranslationStage(PipelineStage):
             completed_batches = offset // self._batch_size + 1
             self.report_progress(
                 0.10 + 0.65 * completed_batches / primary_batches,
-                f"Переведено {len(translations)} из {len(segments)} сегментов",
+                f"Translated {len(translations)} of {len(segments)} segments",
             )
 
         for pass_index in range(3):
@@ -631,9 +631,9 @@ class QwenTranslationStage(PipelineStage):
                 self.report_progress(
                     0.75 + 0.20 * pass_fraction,
                     (
-                        f"Сокращение длинных реплик: проход {pass_index + 1}/3, "
-                        f"обработано {min(offset + len(batch), len(overlong))} "
-                        f"из {len(overlong)}"
+                        f"Shortening long lines: pass {pass_index + 1}/3, "
+                        f"processed {min(offset + len(batch), len(overlong))} "
+                        f"of {len(overlong)}"
                     ),
                 )
         return translations
@@ -673,8 +673,8 @@ class QwenTranslationStage(PipelineStage):
             halves = (batch[:midpoint], batch[midpoint:])
             self.report_progress(
                 None,
-                "Qwen вернул повреждённый ответ; делю пакет "
-                f"{sorted(expected_ids)} на меньшие части…",
+                "Qwen returned a corrupt response; splitting the batch "
+                f"{sorted(expected_ids)} into smaller parts…",
             )
             recovered: dict[int, str] = {}
             for subset in halves:

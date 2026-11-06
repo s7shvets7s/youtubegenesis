@@ -89,7 +89,7 @@ class WhisperXTranscriptionStage(PipelineStage):
         return "transcription"
 
     def run(self, manifest: Manifest, job_dir: Path) -> Manifest:
-        self.report_progress(0.02, "Проверка окружения WhisperX…")
+        self.report_progress(0.02, "Checking the WhisperX environment…")
         python = self._resolve_python(self._python)
         audio_name = manifest.artifacts.get(self._input_artifact)
         if audio_name is None:
@@ -109,7 +109,7 @@ class WhisperXTranscriptionStage(PipelineStage):
         model_dir.mkdir(parents=True, exist_ok=True)
         hf_home.mkdir(parents=True, exist_ok=True)
         environment = self._build_environment(python, cache_root, hf_home)
-        self.report_progress(0.06, "Проверка CUDA и моделей…")
+        self.report_progress(0.06, "Checking CUDA and models…")
         detected_device = self._probe_environment(
             python, environment, timeout=self._probe_timeout
         )
@@ -167,7 +167,7 @@ class WhisperXTranscriptionStage(PipelineStage):
             if self._max_speakers is not None:
                 command.extend(["--max_speakers", str(self._max_speakers)])
         device_label = "GPU" if device == "cuda" else "CPU"
-        self.report_progress(None, f"Распознавание и выравнивание на {device_label}…")
+        self.report_progress(None, f"Recognition and alignment on {device_label}…")
         duration = self._source_duration(manifest)
         timeout = max(self._processing_timeout, duration * 15.0)
         try:
@@ -190,7 +190,7 @@ class WhisperXTranscriptionStage(PipelineStage):
             details = result.stderr.strip() or result.stdout.strip() or "unknown error"
             raise WhisperXExecutionError(f"transcription failed: {details}")
 
-        self.report_progress(0.92, "Проверка и разбор сегментов…")
+        self.report_progress(0.92, "Verifying and parsing segments…")
         generated_json = output_dir / f"{audio_path.stem}.json"
         if not generated_json.is_file():
             raise WhisperXExecutionError(
@@ -281,7 +281,7 @@ class WhisperXTranscriptionStage(PipelineStage):
             "segment_count": len(segments),
         }
         manifest.metadata.pop("transcription_provider", None)
-        self.report_progress(0.98, f"Распознано сегментов: {len(segments)}")
+        self.report_progress(0.98, f"Segments recognized: {len(segments)}")
         return manifest
 
     def _build_environment(

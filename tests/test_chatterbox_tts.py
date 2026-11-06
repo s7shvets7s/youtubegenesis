@@ -122,7 +122,7 @@ class ChatterboxTTSTests(unittest.TestCase):
             self.assertNotIn("premiere_export", result.metadata)
             self.assertNotIn("premiere_export", result.completed_stages)
             self.assertNotIn("premiere_xml", result.artifacts)
-            self.assertTrue(any(message == "Озвучено 2 из 2 сегментов" for _, message in progress))
+            self.assertTrue(any(message == "Voiced 2 of 2 segments" for _, message in progress))
             written_input = json.loads((job_dir / "tts-input.json").read_text(encoding="utf-8"))
             self.assertEqual(written_input["segments"][0]["text"], "Hello")
 

@@ -356,7 +356,7 @@ class ContentAnalysisStage(PipelineStage):
                     return manifest
             except (OSError, ValueError, KeyError):
                 pass
-        self.report_progress(None, "Поиск монтажных границ…")
+        self.report_progress(None, "Finding edit boundaries…")
         detection = self._detect_shots(source, analysis_dir / "shot-detection.json")
         raw_shots = detection.get("scenes")
         if not isinstance(raw_shots, list) or not raw_shots:
@@ -365,7 +365,7 @@ class ContentAnalysisStage(PipelineStage):
             source, raw_shots, analysis_dir / "frames",
             progress=lambda done, total: self.report_progress(
                 0.02 + 0.06 * done / max(1, total),
-                f"Подготовлены кадры сцен: {done}/{total}",
+                f"Scene frames prepared: {done}/{total}",
             ),
         )
 
@@ -392,9 +392,9 @@ class ContentAnalysisStage(PipelineStage):
         visual_error: str | None = None
         video_type = "uncertain"
         try:
-            self.report_progress(None, "Загрузка модели Qwen-VL…")
+            self.report_progress(None, "Loading the Qwen-VL model…")
             runtime._wait_until_ready(process, port, log_path)
-            self.report_progress(0.10, "Единый анализ рекламы и структуры ролика…")
+            self.report_progress(0.10, "Unified analysis of ads and video structure…")
             if self.ad_removal_mode != "off":
                 word_timings = runtime._load_word_timings(job_dir / str(manifest.artifacts.get("transcript") or "transcript.json"))
                 ad_ranges = runtime._detect_ad_ranges(manifest.segments, port, word_timings=word_timings)
@@ -406,7 +406,7 @@ class ContentAnalysisStage(PipelineStage):
                 semantic_error = type(error).__name__
                 blocks = fallback_blocks(manifest.segments)
             try:
-                self.report_progress(0.38, "Qwen-VL определяет тип ролика и содержимое сцен…")
+                self.report_progress(0.38, "Qwen-VL determines the video type and scene content…")
                 video_type = self._analyze_video_type(
                     runtime, port, sampled_shots, analysis_dir / "frames", manifest.segments
                 )
@@ -555,7 +555,7 @@ class ContentAnalysisStage(PipelineStage):
             manifest.artifacts.pop(key, None)
         manifest.metadata.pop("avatar", None)
         manifest.metadata.pop("music_bed", None)
-        self.report_progress(0.99, f"Размечено эпизодов: {len(episodes)}; автор: {summary['author_episode_count']}")
+        self.report_progress(0.99, f"Episodes marked: {len(episodes)}; author: {summary['author_episode_count']}")
         return manifest
 
     def _analyze_structure(self, runtime: QwenTranslationStage, port: int,
@@ -653,8 +653,8 @@ class ContentAnalysisStage(PipelineStage):
             batch = shots[offset:offset + batch_size]
             self.report_progress(
                 0.40 + 0.54 * offset / len(shots),
-                f"Qwen-VL: обработано сцен {offset}/{len(shots)}; "
-                f"анализ {offset + 1}–{offset + len(batch)}…",
+                f"Qwen-VL: shots processed {offset}/{len(shots)}; "
+                f"analyzing {offset + 1}-{offset + len(batch)}…",
             )
             content: list[dict[str, Any]] = [{
                 "type": "text",
@@ -716,8 +716,8 @@ class ContentAnalysisStage(PipelineStage):
             review = sum(item.get("requires_review", False) for item in result)
             self.report_progress(
                 0.40 + 0.54 * completed / len(shots),
-                f"Qwen-VL: обработано сцен {completed}/{len(shots)}; "
-                f"требуют проверки: {review}",
+                f"Qwen-VL: shots processed {completed}/{len(shots)}; "
+                f"need review: {review}",
             )
         return result
 

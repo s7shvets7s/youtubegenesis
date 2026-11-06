@@ -98,7 +98,7 @@ class DialogueTimingStage(PipelineStage):
         output_dir = job_dir / "aligned-tts"
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.report_progress(0.02, "Обрезка краевой тишины в репликах…")
+        self.report_progress(0.02, "Trimming edge silence in lines…")
         trimmed: dict[int, Path] = {}
         durations: dict[int, float] = {}
         for index, segment in enumerate(manifest.segments, start=1):
@@ -114,12 +114,12 @@ class DialogueTimingStage(PipelineStage):
             durations[segment.id] = duration
             self.report_progress(
                 0.02 + 0.30 * index / len(manifest.segments),
-                f"Очищено реплик: {index} из {len(manifest.segments)}",
+                f"Lines cleaned: {index} of {len(manifest.segments)}",
             )
 
         placements = self.plan(manifest.segments, durations)
         by_id = {placement.segment_id: placement for placement in placements}
-        self.report_progress(0.34, "Выравнивание темпа речевых блоков…")
+        self.report_progress(0.34, "Aligning the pace of speech blocks…")
         actual_durations: dict[int, float] = {}
         for index, segment in enumerate(manifest.segments, start=1):
             placement = by_id[segment.id]
@@ -138,7 +138,7 @@ class DialogueTimingStage(PipelineStage):
             segment.dub_speed = placement.speed
             self.report_progress(
                 0.34 + 0.62 * index / len(manifest.segments),
-                f"Выровнено реплик: {index} из {len(manifest.segments)}",
+                f"Lines aligned: {index} of {len(manifest.segments)}",
             )
 
         # Rebuild starts from measured output durations so rounding and codec padding
@@ -173,7 +173,7 @@ class DialogueTimingStage(PipelineStage):
         }
         self.report_progress(
             0.99,
-            f"Тайминг выровнен; требуют переписывания: {len(rewrite_ids)}",
+            f"Timing aligned; need rewriting: {len(rewrite_ids)}",
         )
         return manifest
 

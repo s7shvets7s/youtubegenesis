@@ -87,7 +87,7 @@ class SpeechPostprocessStage(PipelineStage):
             results.append(result)
             self.report_progress(
                 index / len(manifest.segments),
-                f"Обработано реплик: {index} из {len(manifest.segments)}",
+                f"Lines processed: {index} of {len(manifest.segments)}",
             )
 
         report = {

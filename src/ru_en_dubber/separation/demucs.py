@@ -63,7 +63,7 @@ class DemucsSeparationStage(PipelineStage):
         return "source_separation"
 
     def run(self, manifest: Manifest, job_dir: Path) -> Manifest:
-        self.report_progress(0.03, "Проверка окружения Demucs…")
+        self.report_progress(0.03, "Checking the Demucs environment…")
         python = self._resolve_python(self._python)
         audio_name = manifest.artifacts.get(self._input_artifact)
         if audio_name is None:
@@ -77,7 +77,7 @@ class DemucsSeparationStage(PipelineStage):
         if not audio_path.is_file():
             raise FileNotFoundError(f"audio for separation not found: {audio_path}")
 
-        self.report_progress(0.08, "Проверка CUDA…")
+        self.report_progress(0.08, "Checking CUDA…")
         device = self._probe_environment(python, timeout=self._probe_timeout)
         if self._device != "auto":
             device = self._device
@@ -114,7 +114,7 @@ class DemucsSeparationStage(PipelineStage):
             str(audio_path),
         ]
         device_label = "GPU" if device == "cuda" else "CPU"
-        self.report_progress(None, f"Разделение дорожек на {device_label}…")
+        self.report_progress(None, f"Separating tracks on {device_label}…")
         duration = self._source_duration(manifest)
         timeout = max(self._processing_timeout, duration * 20.0)
         try:
@@ -145,7 +145,7 @@ class DemucsSeparationStage(PipelineStage):
                 "Demucs completed but vocals.wav or no_vocals.wav is missing"
             )
 
-        self.report_progress(0.90, "Сохранение вокала и фона…")
+        self.report_progress(0.90, "Saving vocals and background…")
         vocals_path = job_dir / "vocals.wav"
         background_path = job_dir / "background.wav"
         self._copy_atomically(generated_vocals, vocals_path)
@@ -161,7 +161,7 @@ class DemucsSeparationStage(PipelineStage):
             "segment_seconds": self._segment_seconds,
             "mode": "two_stems_vocals",
         }
-        self.report_progress(0.98, "Дорожки разделены")
+        self.report_progress(0.98, "Tracks separated")
         return manifest
 
     @staticmethod
