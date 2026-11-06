@@ -140,6 +140,7 @@ class VisualRebuildStage(PipelineStage):
         fallback: str = "card",
         request_budget: int = 120,
         media_type_mode: str = "mixed",
+        script_animation_mode: str = "off",
     ) -> None:
         if not 4.0 <= target_beat_seconds <= 30.0:
             raise ValueError("target visual beat duration must be between 4 and 30 seconds")
@@ -165,6 +166,7 @@ class VisualRebuildStage(PipelineStage):
         self._fallback = fallback
         self._request_budget = request_budget
         self._media_type_mode = media_type_mode
+        self._script_animation_mode = script_animation_mode
         self._ffmpeg = ffmpeg
         self._ffprobe = ffprobe
         self._api_key = api_key

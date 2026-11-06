@@ -11,6 +11,15 @@ from ru_en_dubber.pipeline.progress import STAGE_LABELS
 def write_json(path: Path, data: dict) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(data, ensure_ascii=False, allow_nan=False), encoding="utf-8")
+    # Windows can briefly deny replacement while the Web UI is reading the snapshot.
+    for delay in (0.02, 0.04, 0.08, 0.16, 0.25, 0.25):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError as error:
+            if getattr(error, "winerror", None) not in {5, 32, 33}:
+                raise
+            time.sleep(delay)
     temporary.replace(path)
 
 

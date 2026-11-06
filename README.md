@@ -8,6 +8,8 @@ English narration script. Keep the source, inspect each stage, and refine the ed
 
 **Beta · Windows · Python 3.11+ · MIT**
 
+![Dubber Web UI — pipeline launch screen](docs/images/ui-pipeline.jpg)
+
 ## Why use it?
 
 - **Editable delivery.** Export FCP 7 XML, separate voice/background tracks, media,
@@ -45,6 +47,17 @@ py -3.12 -m venv .venv
 Open [the local interface](http://127.0.0.1:8765). This starts the catalog and UI;
 processing media requires the [runtime setup](docs/installation.md). The current
 Web UI contains Russian labels. The CLI help and this documentation are in English.
+
+> The screenshots below use a synthetic demo workspace; no production channels or
+> media are shown.
+
+| Channels catalog | Channel detail |
+| --- | --- |
+| ![Channels catalog](docs/images/ui-channels.jpg) | ![Channel detail with videos](docs/images/ui-channel-detail.jpg) |
+
+Pipeline settings are grouped and searchable (66 parameters):
+
+![Pipeline settings groups](docs/images/ui-settings.jpg)
 
 After runtime setup, use `scripts/START_WEB_UI.cmd` or inspect the CLI:
 

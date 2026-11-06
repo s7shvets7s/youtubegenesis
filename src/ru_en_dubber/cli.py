@@ -858,6 +858,7 @@ def main(argv: list[str] | None = None, *, progress: PipelineProgress | None = N
                         fallback=args.visual_fallback,
                         request_budget=args.media_request_budget,
                         media_type_mode=visual_media_type,
+                        script_animation_mode=args.animation_mode if script_mode else "off",
                     )
                 )
             if args.avatar_mode == "musetalk":

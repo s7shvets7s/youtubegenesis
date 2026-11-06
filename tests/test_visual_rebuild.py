@@ -10,7 +10,7 @@ from unittest.mock import patch, Mock
 from ru_en_dubber.models import Job, Manifest, Segment
 from ru_en_dubber.visuals import VisualRebuildError, VisualRebuildStage
 from ru_en_dubber.visuals.engine import render
-from ru_en_dubber.visuals.models import AssetCandidate
+from ru_en_dubber.visuals.models import AssetCandidate, VisualRequest
 from ru_en_dubber.visuals.rebuild import VisualBeat
 
 
@@ -205,6 +205,37 @@ class VisualRebuildTests(unittest.TestCase):
             self.assertTrue(output.is_file())
             self.assertAlmostEqual(VisualRebuildStage._video_properties(media)[3], 0.5,
                                    delta=0.05)
+
+    def test_script_mixed_media_renders_process_animation_alongside_media_beats(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        ffmpeg = root / ".tools" / "ffmpeg" / "bin" / "ffmpeg.exe"
+        ffprobe = ffmpeg.with_name("ffprobe.exe")
+        if not ffmpeg.is_file() or not ffprobe.is_file():
+            self.skipTest("bundled FFmpeg is unavailable")
+        requests = [
+            VisualRequest(1, 0, 1, "Fold the paper.", "Fold and press", visual_intent="process"),
+            VisualRequest(2, 1, 2, "Look at the paper.", "Paper", visual_intent="object"),
+        ]
+        manifest = Manifest(
+            job=Job(id="script", source_file="script.txt"),
+            segments=[Segment(id=r.index, start=r.start, end=r.end, ru=r.narration,
+                              en=r.narration) for r in requests],
+            metadata={"input": {"type": "script"}},
+        )
+        stage = VisualRebuildStage(ffmpeg=str(ffmpeg), ffprobe=str(ffprobe), providers=[],
+                                   script_animation_mode="templates")
+        with (tempfile.TemporaryDirectory(dir=root) as directory,
+              patch.object(stage, "build_beats", return_value=[
+                  VisualBeat(r.index, r.start, r.end, (r.index,), r.narration, r.subject)
+                  for r in requests
+              ]),
+              patch("ru_en_dubber.visuals.engine.VisualPlanner.plan", return_value=requests)):
+            job_dir = Path(directory)
+            result = stage.run(manifest, job_dir)
+            plan = json.loads((job_dir / result.artifacts["visual_plan"]).read_text("utf-8"))
+            self.assertEqual([beat["status"] for beat in plan["beats"]],
+                             ["animation", "no_safe_match"])
+            self.assertTrue((job_dir / result.artifacts["rebuild_video"]).is_file())
 
     def test_real_ffmpeg_can_render_and_concatenate_safe_local_clips(self) -> None:
         root = Path(__file__).resolve().parents[1]

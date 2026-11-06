@@ -24,6 +24,27 @@ from ru_en_dubber.web.settings import build_argv, schema, valid_id
 
 
 class ProgressTests(unittest.TestCase):
+    def test_windows_read_lock_retries_atomic_progress_replace(self):
+        with tempfile.TemporaryDirectory() as folder:
+            progress = FileProgress(Path(folder) / "progress.json")
+            original_replace = Path.replace
+            sharing_error = PermissionError("snapshot is open")
+            sharing_error.winerror = 5
+
+            def replace_with_transient_lock(temporary, target):
+                if replace.call_count == 1:
+                    raise sharing_error
+                self.assertEqual(json.loads(target.read_text("utf-8"))["status"], "starting")
+                original_replace(temporary, target)
+
+            with (patch.object(Path, "replace", autospec=True,
+                               side_effect=replace_with_transient_lock) as replace,
+                  patch("ru_en_dubber.web.progress.time.sleep") as sleep):
+                progress.start_pipeline("test", 2)
+
+            sleep.assert_called_once_with(0.02)
+            self.assertEqual(json.loads(progress.path.read_text("utf-8"))["status"], "running")
+
     def test_real_pipeline_snapshots_finish_only_after_all_stages(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

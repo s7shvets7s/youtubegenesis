@@ -48,6 +48,10 @@ transcription, and translation. Without `--audio-only`, script jobs rebuild visu
 and export an editing package. TTS setup is still required. Audio-only jobs require
 FFmpeg/FFprobe while speech postprocessing is enabled.
 
+In mixed media mode, the semantic planner can select process beats for local animation.
+Use `--animation-mode templates` for template graphics, `agent` for Qwen-generated
+animation specs with template fallback, or `off` to use media search for those beats.
+
 Speech defaults to `--speech-postprocess speech --speech-target-lufs -18
 --speech-true-peak-db -2`. Bypass with `--speech-postprocess off`. Raw provider audio
 is preserved; see [processing details](P6-speech-postprocess.md).

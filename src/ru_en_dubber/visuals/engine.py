@@ -9,7 +9,7 @@ from dataclasses import replace, asdict, is_dataclass
 from pathlib import Path
 
 from ru_en_dubber.security import resolve_job_path, validate_media_file, validate_probe_payload, validate_download_url
-from .animations import render_animation
+from .animations import AnimationPlanStage, render_animation
 from .models import AssetCandidate, POLICY_VERSION, VisualRequest, fingerprint
 from .planner import VisualPlanner, fallback_request
 from .policy import rejection_reason, rank, route
@@ -89,6 +89,29 @@ def run(stage, manifest, job_dir):
                     raise VisualRebuildError("visual override must not change the timeline or narration")
             updated.append(parse_plan(editable, base))
         requests = updated
+    script_specs = {}
+    if (script_job and not episode_plan and stage._media_type_mode == "mixed"
+            and stage._script_animation_mode != "off"):
+        episodes = [
+            {"index": request.index, "action": "replace_animation", "visual_intent": "process",
+             "subject": request.subject, "source_start": request.start,
+             "source_end": request.end, "summary": request.narration}
+            for request in requests if request.visual_intent == "process"
+        ]
+        if episodes:
+            transcript = [{"id": request.index, "start": request.start, "end": request.end,
+                           "text": request.narration} for request in requests]
+            animation_dir = directory / "animations"
+            animation_dir.mkdir(exist_ok=True)
+            animation = AnimationPlanStage(mode=stage._script_animation_mode,
+                server=stage._planner_server, model=stage._planner_model,
+                gpu_layers=stage._planner_gpu_layers)
+            specs, reason = animation.plan_specs(transcript, episodes, animation_dir)
+            script_specs = {spec["episode_index"]: spec for spec in specs}
+            write_json(animation_dir / "script-specs.json", {"animations": specs,
+                       "mode": stage._script_animation_mode, "fallback_reason": reason})
+            beats = [replace(beat, action="replace_animation", episode_index=beat.index)
+                     if beat.index in script_specs else beat for beat in beats]
     allowed_types = {"image": ("image",), "mixed": ("video", "image"), "video": ("video",)}
     requests = [replace(request, media_types=allowed_types[stage._media_type_mode]) for request in requests]
     write_json(directory / "visual-requests.json", [r.to_dict() for r in requests])
@@ -100,7 +123,7 @@ def run(stage, manifest, job_dir):
         classes[name](transport, keys.get(name, ""), stage._candidates_per_query)
         for name in stage._provider_names]
     providers_by_name = {p.name: p for p in providers}
-    animation_specs = {}
+    animation_specs = script_specs
     if manifest.artifacts.get("animation_plan"):
         try:
             animation_path = resolve_job_path(job_dir, manifest.artifacts["animation_plan"], label="animation plan")

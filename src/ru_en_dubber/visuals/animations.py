@@ -330,15 +330,7 @@ class AnimationPlanStage(PipelineStage):
                     return manifest
             except (OSError, ValueError, KeyError):
                 pass
-        specs: list[dict[str, Any]] = []
-        fallback_reason = None
-        if self.mode != "off" and episodes:
-            specs = [fallback_spec(item) for item in episodes]
-        if self.mode == "agent" and episodes:
-            try:
-                specs = self._agent_specs(transcript, episodes, directory)
-            except (OSError, RuntimeError, ValueError, KeyError, TypeError) as error:
-                fallback_reason = type(error).__name__
+        specs, fallback_reason = self.plan_specs(transcript, episodes, directory)
         summary = {"mode": self.mode, "requested_count": len(episodes), "planned_count": len(specs),
                    "fallback_reason": fallback_reason, "renderer_version": RENDERER_VERSION}
         write_json(output, {"version": 2, "fingerprint": key, "summary": summary, "animations": specs})
@@ -358,6 +350,19 @@ class AnimationPlanStage(PipelineStage):
         manifest.metadata.pop("music_bed", None)
         self.report_progress(0.99, f"План анимаций: {len(specs)}")
         return manifest
+
+    def plan_specs(
+        self, transcript: list[dict[str, Any]], episodes: list[dict[str, Any]], directory: Path,
+    ) -> tuple[list[dict[str, Any]], str | None]:
+        if self.mode == "off" or not episodes:
+            return [], None
+        specs = [fallback_spec(item) for item in episodes]
+        if self.mode == "agent":
+            try:
+                return self._agent_specs(transcript, episodes, directory), None
+            except (OSError, RuntimeError, ValueError, KeyError, TypeError) as error:
+                return specs, type(error).__name__
+        return specs, None
 
     def _agent_specs(self, transcript: list[dict[str, Any]], episodes: list[dict[str, Any]],
                      directory: Path) -> list[dict[str, Any]]:
