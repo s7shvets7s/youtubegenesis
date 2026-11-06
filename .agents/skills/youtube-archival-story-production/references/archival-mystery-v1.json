@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "profile_id": "archival-mystery",
+  "revision": 1,
+  "provenance": "Original project synthesis of discussed production methods; not a vendored upstream skill or measured competitor report.",
+  "setting_origin": "adopted_default",
+  "delivery": {
+    "default_duration_minutes": 28,
+    "aspect_ratio": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "style_preview_enabled": true,
+    "style_preview_seconds": 60
+  },
+  "narration": {
+    "voice_character": "One restrained, low-register, conversational American-English storyteller; intimate rather than sensational.",
+    "target_wpm": 170,
+    "planning_wpm_min": 160,
+    "planning_wpm_max": 175,
+    "ordinary_gap_review_seconds": 1.1,
+    "pause_policy": "Review unintended gaps; preserve marked questions, suspense, reveals and emotional holds. Never truncate approved speech."
+  },
+  "narrative_beats": [
+    {"id": "hook", "weight_pct": 4, "purpose": "Concrete artifact, narrow anomaly, consequence and title promise; cap at 60 seconds."},
+    {"id": "discovery", "weight_pct": 7, "purpose": "Present-day framing and a plausible path to the record."},
+    {"id": "protagonist", "weight_pct": 5, "purpose": "Specialist skill, motive and a detail that will matter later."},
+    {"id": "assignment", "weight_pct": 7, "purpose": "Unusual task, authority, constraints and physical setting."},
+    {"id": "attempts", "weight_pct": 20, "purpose": "Distinct attempts with changing results, clues and incentives."},
+    {"id": "context", "weight_pct": 5, "purpose": "Brief verified period context sharpens the fictional contradiction."},
+    {"id": "reframe", "weight_pct": 8, "purpose": "A clue suggests the protagonist misunderstood the task or subject."},
+    {"id": "test", "weight_pct": 7, "purpose": "A risky deliberate test with a reason for its timing."},
+    {"id": "climax", "weight_pct": 12, "purpose": "A decisive event changes the central motif's meaning."},
+    {"id": "choice", "weight_pct": 13, "purpose": "The protagonist acts on the revelation and pays a consequence."},
+    {"id": "aftermath", "weight_pct": 10, "purpose": "Resolve the personal story and return to the later discovery."},
+    {"id": "callback", "weight_pct": 2, "purpose": "Answer the opening promise and close on the changed motif."}
+  ],
+  "retention": {
+    "hook_action_by_seconds": 10,
+    "premise_and_stakes_by_seconds": 30,
+    "first_development_and_open_question_by_seconds": 60,
+    "question_cluster_interval_seconds": [60, 90],
+    "questions_per_cluster": [2, 3],
+    "motif_uses_per_28_minutes": [15, 20],
+    "motif_scaling": "Scale approximately with runtime; every repetition changes context or pressure; reveal the second meaning in the climax.",
+    "plant_policy": "Every explicit remember-this promise has a recorded later payoff.",
+    "cta": "One brief late-story subscription bridge where it fits an unresolved question, then a relevant closing comment invitation; do not interrupt the decisive reveal."
+  },
+  "visuals": {
+    "shot_target_denominator": "base_shot_count, not screen duration; overlays are separate",
+    "shot_type_targets_pct": {"historical_reconstruction": 45, "real_archive": 15, "graphite_sketch": 15, "present_day": 8, "full_frame_graphic": 17},
+    "target_policy": "Approximate count targets; log rebalancing for available assets, palette limits and speech. Never fabricate archive coverage to meet a percentage.",
+    "hook_shot_seconds": [3, 5],
+    "body_shot_seconds": [6, 12],
+    "climax_shot_seconds": [4, 7],
+    "minimum_shot_seconds": 2,
+    "crossfade_seconds": [0.6, 1.0],
+    "hard_cut_policy": "A decisive phrase or deliberate era/scene change.",
+    "still_motion": {"push_scale": [1.0, 1.06], "pull_scale": [1.06, 1.0], "pan_width_pct": [2, 4], "easing": "ease-in-out; alternate direction without losing the focal subject"},
+    "small_archive_policy": "Use an inset or print; do not enlarge unusable detail.",
+    "motif_exception": "Reuse registered motifs with a new narrative function; audit all other asset repeats.",
+    "grade": "Historical monochrome with restrained grain/vignette; avoid stacking heavy baked texture and final grading."
+  },
+  "image_prompts": {
+    "word_range": [40, 90],
+    "anchors": "Repeat frozen character and relevant location descriptions in each standalone prompt.",
+    "historical_photo_prefix": "BLACK AND WHITE monochrome photograph,",
+    "historical_photo_style": "mid-century press-photo reconstruction, silver-gelatin appearance, restrained texture, period-appropriate objects and lighting",
+    "sketch_prefix": "BLACK AND WHITE graphite pencil sketch on plain paper,",
+    "sketch_style": "fine cross-hatching, pencil-gray shading, stable room layout and recurring subject design",
+    "monochrome_suffix": "black and white only, monochrome, grayscale, no color, 16:9, no text, no watermark, no borders",
+    "present_day_prefix": "Realistic color photo,",
+    "present_day_suffix": "muted natural colors, 16:9, no text, no watermark, no borders",
+    "monochrome_generated_prompt_min_pct": 92,
+    "palette_scope": "At least 92 percent of generated still prompts are monochrome. Present-day licensed footage may occupy a different share of base shots. Paper graphics follow their separate cream/red palette.",
+    "palette_review": "No chromatic descriptors in historical photo/sketch prompts. Normalized 0-1 saturation is a flag only; inspect images and preserve originals when making corrected derivatives.",
+    "export": "One prompt per paragraph, one blank line; a separate ordered map binds paragraphs to immutable shot IDs."
+  },
+  "graphics": {
+    "background": "Dark walnut desk, defocused monochrome prints, restrained depth and 2-3 percent camera drift.",
+    "palette": "Cream paper, near-black type, one dark-red accent.",
+    "fonts": {"heading": "Playfair Display or Libre Caslon Text", "typewriter": "Courier Prime or Special Elite", "quotation": "Playfair Display Italic"},
+    "font_policy": "Available licensed project-local fonts; record exact selected files and hashes.",
+    "card_interval_seconds": [45, 75],
+    "card_hold_seconds": [3, 6],
+    "entry_seconds": [0.4, 0.6],
+    "anchor_tolerance_seconds": 0.3,
+    "layer_policy": "One primary card at once; exact words come from narration or a verified source; word-anchor the reveals.",
+    "components": [
+      {"id": "title", "recipe": "Cream headline sheet with a short story-specific serif title and thin rule; enter from above, rotate -4 degrees to zero and settle."},
+      {"id": "spoken_list", "recipe": "Lower paper strip; reveal exact words individually on speech anchors; leave the subject visible."},
+      {"id": "identity", "recipe": "Taped angled monochrome portrait print with name/role; settle from scale 1.15 and reveal the name by words."},
+      {"id": "location", "recipe": "Paper tag in a clear lower corner; script place/period, slight tilt and restrained slide-in."},
+      {"id": "date", "recipe": "Calendar with dark-red header or mechanical year flip; stable final digits aligned to the date phrase."},
+      {"id": "quotation", "recipe": "Pinned paper, opening quotation mark, italic exact quote and attribution; line reveal with small vertical displacement."},
+      {"id": "document", "recipe": "Layered typed sheets with a sourced or fictional in-story header; emphasize one exact phrase with a dark-red underline over 0.6 seconds and a slow push."},
+      {"id": "reveal", "recipe": "Spare typewritten phrase; 2-3 seconds of intentional silence when appropriate, preserving the marked pause."},
+      {"id": "record_transition", "recipe": "Faint document superimposed on the scene for an era/record transition; do not represent invented text as a sourced quotation."},
+      {"id": "folder", "recipe": "Story-specific archive folder insert with a restrained push; exact labels are rendered in the editor."}
+    ]
+  },
+  "sound": {
+    "background": "Quiet dark drone/room ambience without melody/percussion; preserve narration and intentional silence.",
+    "background_gain_relative_to_voice_db": [-32, -28],
+    "spot_effects": ["recording-medium hiss", "recorder motor", "switch click", "clock tick", "paper handling", "scene-specific room tone"],
+    "same_spot_effect_max_uses": 3,
+    "ducking": "Duck backgrounds as needed; audition final voice, ambience and SFX together.",
+    "integrated_loudness_lufs": -14,
+    "true_peak_max_dbtp": -1,
+    "measurement_note": "Selected delivery targets, not platform requirements or a measured reference mix."
+  },
+  "execution": {
+    "asset_route": "manual_stills",
+    "narration_provider": "unselected",
+    "alignment_provider": "unselected",
+    "render_provider": "unselected",
+    "provider_policy": "Choose local/Gemini explicitly when needed and record actual model/voice IDs. No automatic service fallback or dependency bootstrap.",
+    "render_candidate": "HyperFrames/FFmpeg after capability review and technical test; not an existing application integration.",
+    "default_requested_tier": "visual_handoff",
+    "completion_policy": "The user's tier overrides the default. Verify MP4/Premiere separately; prompts do not prove a render."
+  }
+}

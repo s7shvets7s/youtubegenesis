@@ -1,0 +1,53 @@
+{
+  "repository": "https://github.com/kaomei/stickman-video-director",
+  "revision": "5841335db851b5f0352cf77955147393b97beabc",
+  "retrieved_at": "2026-10-19T14:20:18Z",
+  "license": "MIT",
+  "files": [
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/cozy-storytelling.md",
+      "local_name": "cozy-storytelling.md",
+      "sha256": "9d01ba1b4192800b3b8b4e7e21df90949d39f599845a0dd2f4399607b0fc8785"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/examples.md",
+      "local_name": "examples.md",
+      "sha256": "db1453116882cdf6b3bec36611a318d917c87b668b860cbd726ebd8c6054cfd3"
+    },
+    {
+      "upstream_path": "LICENSE",
+      "local_name": "LICENSE",
+      "sha256": "d522bfeb627678058cda4841e146f07b5748148f8d29339619f82d2960623c8b"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/omni-flash-prompt-contract.md",
+      "local_name": "omni-flash-prompt-contract.md",
+      "sha256": "4dfadf18e8edf205c77fb37e440fe28917c1b8db37d2fa50caf8c78103fa3190"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/prehistoric-dark-comedy.md",
+      "local_name": "prehistoric-dark-comedy.md",
+      "sha256": "d2446e288043836a38b1e14e5bb9136eba3eb95e908d13adc1ae318f1e1cb52b"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/SKILL.md",
+      "local_name": "SKILL.md",
+      "sha256": "83d21d0b779669c317afc88a13c844b06c9d0b3b8f52784e0801e60ced1d37df"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/storyboard-template.md",
+      "local_name": "storyboard-template.md",
+      "sha256": "fb8c1cc1f0b98dbedf3dc6c80399b5f06ef218fc3dd495d1ee72aeb3a4396519"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/style-catalog.md",
+      "local_name": "style-catalog.md",
+      "sha256": "c87c05ae56afc75382b237cd036f5a90c0df3a409035cdac88207281f6d5cabb"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/voice-continuity.md",
+      "local_name": "voice-continuity.md",
+      "sha256": "545c355ac515a9e88faa2906a3524b186bcaa719bba3ce3a67ff5a491dade1c6"
+    }
+  ]
+}

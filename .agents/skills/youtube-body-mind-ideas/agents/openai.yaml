@@ -1,0 +1,4 @@
+interface:
+  display_name: "Body and Mind YouTube Ideas"
+  short_description: "Screen 35 what-if ideas against YouTube"
+  default_prompt: "Use $youtube-body-mind-ideas to develop 35 screened body-and-mind video titles."

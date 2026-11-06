@@ -30,7 +30,9 @@ build/
 # Private workspace state, production material and local agent instructions
 /.runtime/
 /graphify-out/
-/.agents/
+# Agent skills are public; any other .agents content stays private
+/.agents/*
+!/.agents/skills/
 /.codex/
 /AGENTS.md
 /channels/
@@ -45,7 +47,6 @@ build/
 /tmp*/
 /temp*/
 /2d-video/
-/third_party/
 /scripts/recover_capcut_motionblur.py
 /docs/*feasibility.md
 /docs/*discovery*.md

@@ -1,0 +1,14 @@
+{
+  "name": "2d-video",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "description": "2D Video: code-rendered cinematic stick-figure story videos (2D canvas + Three.js), rendered frame-by-frame",
+  "dependencies": {
+    "@fontsource/fredoka": "5.1.0",
+    "@fontsource/nunito": "5.1.0",
+    "@fontsource/playfair-display": "5.1.0",
+    "playwright": "1.56.0",
+    "three": "0.169.0"
+  }
+}

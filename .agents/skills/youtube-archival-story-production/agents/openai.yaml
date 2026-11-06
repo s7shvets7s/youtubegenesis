@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Archival Story Production"
+  short_description: "Archival stories from researched format playbooks"
+  default_prompt: "Use $youtube-archival-story-production with the completed competitor research and selected channel playbook to produce this archival story and its requested visual package."

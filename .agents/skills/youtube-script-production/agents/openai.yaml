@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Script Production"
+  short_description: "Create full video packages with titles and thumbnails"
+  default_prompt: "Use $youtube-script-production for a complete video package. Use the selected researched format profile, default narration to 150 words per minute (140–160) unless that profile specifies otherwise, verify measured audio, and deliver a recommended title, full description, tags, finished thumbnail and package links. Rendered videos must contain synchronized audible sound effects."

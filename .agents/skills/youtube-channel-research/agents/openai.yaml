@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Channel Research"
+  short_description: "Analyze reference YouTube channels end to end"
+  default_prompt: "Use $youtube-channel-research to research this reference YouTube channel."

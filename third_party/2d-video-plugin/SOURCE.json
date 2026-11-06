@@ -1,0 +1,21 @@
+{
+  "source_type": "user-supplied local archive",
+  "source_file_name": "2d-video.plugin",
+  "archive_sha256": "095693c9957717806cfe2309a5de1eaef220e40d1bb24ee5ee67e1385f6bb210",
+  "archive_entries": 43,
+  "plugin_name": "2d-video",
+  "plugin_version": "0.1.1",
+  "author_from_metadata": "Андрей Зенин",
+  "source_repository": null,
+  "license_file_in_archive": false,
+  "local_changes": [
+    "skills/make-2d-video/kit/render.mjs: bind the preview server to loopback and enforce realpath-based file containment",
+    "skills/make-2d-video/kit/tools/new_project.py: default authored output to English and source speech detection to auto",
+    "skills/make-2d-video/kit/tools/transcribe.py: remove the fallback to Russian source speech",
+    "skills/make-2d-video/kit/tools/verify_kit.py: accept the locally adapted kit checksums",
+    "five skills/*/SKILL.md files: require English channel-facing output and preserve source audio language",
+    "README.md and two references: document the English output policy",
+    "2026-10-20: add original engine/market2d.js and market2d.test.mjs for deterministic financial illustrations, cartoon cast, candlesticks, coins, posts, transfers, ledgers, clocks and city scenes; upstream modules preserved"
+  ],
+  "execution_status": "Local runtime used for the 247-shot Trump film on 2026-10-20; preview and full visual render tested. Final media evidence is scoped to that managed video DELIVERY_QC.json. This does not verify all kit features or the core Premiere pipeline."
+}

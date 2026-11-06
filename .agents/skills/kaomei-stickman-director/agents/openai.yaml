@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kaomei Stickman Director Adapter"
+  short_description: "Adapt pinned style and continuity guidance for project videos"
+  default_prompt: "Use $kaomei-stickman-director as advisory guidance inside the project video workflow."

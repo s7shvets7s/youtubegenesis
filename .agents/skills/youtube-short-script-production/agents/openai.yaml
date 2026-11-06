@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Short Script Production"
+  short_description: "Short scripts, synced captions, SFX and contextual overlays"
+  default_prompt: "Use $youtube-short-script-production to create a researched short script in the managed channel and plan synchronized SFX, active-word captions, and contextual overlays."

@@ -92,6 +92,26 @@ Ad removal defaults to `remove` with a confidence threshold of `0.85`; review th
 generated ranges before using the edit. Choose `--ad-removal mark` for review or
 `--ad-removal off` to disable it. Source files are preserved.
 
+## Agent skills (creative workflows)
+
+Beyond the pipeline, the repo ships the agent skills used to research, plan and
+produce videos for a managed channel. They live in [`.agents/skills/`](.agents/skills)
+and are written for coding agents (Claude Code / Codex); project rules in `AGENTS.md`
+always take precedence.
+
+| Skill | What it does |
+| --- | --- |
+| [`youtube-channel-research`](.agents/skills/youtube-channel-research) | Build an evidence-backed competitor dossier and a reusable script blueprint from a reference channel |
+| [`youtube-body-mind-ideas`](.agents/skills/youtube-body-mind-ideas) | Generate 35 original body-and-mind "what-if" title ideas with a YouTube uniqueness check |
+| [`youtube-script-production`](.agents/skills/youtube-script-production) | Turn a topic into a full long-form package: script, review, title + alternatives, description, tags, thumbnail, visual route |
+| [`youtube-short-script-production`](.agents/skills/youtube-short-script-production) | The same for Shorts (30–180s), with a synchronized edit plan |
+| [`youtube-flow-visuals`](.agents/skills/youtube-flow-visuals) | Turn an approved script into first-frame and Google Flow motion prompts with a durable style bible |
+| [`youtube-visual-repair`](.agents/skills/youtube-visual-repair) | Map bad timeline intervals to narration and produce replacement image prompts |
+| [`youtube-archival-story-production`](.agents/skills/youtube-archival-story-production) | Produce an archival-mystery / found-record story in a selected format |
+| [`2d-video-plugin`](.agents/skills/2d-video-plugin) | Adapter for an optional local code-rendered 2D visual route (vendored under `third_party/`) |
+| [`claude-youtube-competitor`](.agents/skills/claude-youtube-competitor) | Competitor-analysis framework adapted from an upstream project (MIT, attributed) |
+| [`kaomei-stickman-director`](.agents/skills/kaomei-stickman-director) | Stickman-video directing and continuity methods adapted from an upstream skill (MIT, attributed) |
+
 ## Documentation
 
 | Guide | Contents |

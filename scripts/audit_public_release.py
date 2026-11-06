@@ -16,8 +16,8 @@ from pathlib import Path, PurePosixPath
 
 MAX_BLOB_BYTES = 2 * 1024 * 1024
 PRIVATE_ROOTS = {
-    ".agents", ".codex", ".runtime", ".models", ".tools", "graphify-out",
-    "channels", "jobs", "voices", "avatars", "voice-tests", "third_party",
+    ".codex", ".runtime", ".models", ".tools", "graphify-out",
+    "channels", "jobs", "voices", "avatars", "voice-tests",
     "channel-branding", "branding", "brand", "2d-video",
 }
 PRIVATE_SUFFIXES = {

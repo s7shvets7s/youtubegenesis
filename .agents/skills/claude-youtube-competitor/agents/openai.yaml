@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude YouTube Competitor"
+  short_description: "Adapt upstream competitor analysis for this project"
+  default_prompt: "Use $claude-youtube-competitor to strengthen this competitor analysis without overriding project rules."

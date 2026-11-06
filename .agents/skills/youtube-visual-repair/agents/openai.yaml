@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Visual Repair"
+  short_description: "Create replacement image prompts from dialogue timing"
+  default_prompt: "Use $youtube-visual-repair to create replacement image prompts for these timestamps."

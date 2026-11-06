@@ -1,0 +1,18 @@
+{
+  "name": "2d-video",
+  "version": "0.1.1",
+  "description": "Turn any voiceover into a fully animated cinematic stick-figure video: code-rendered 2D + 3D scenes, auto timestamps with Whisper, five switchable visual styles, generated music and sound effects, 16:9 or 9:16 from 720p to 4K.",
+  "author": {
+    "name": "Андрей Зенин"
+  },
+  "keywords": [
+    "video",
+    "animation",
+    "faceless youtube",
+    "stick figure",
+    "explainer",
+    "whisper",
+    "three.js",
+    "motion graphics"
+  ]
+}

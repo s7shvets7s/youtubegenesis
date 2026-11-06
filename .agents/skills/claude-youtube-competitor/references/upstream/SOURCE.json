@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/AgriciDaniel/claude-youtube",
+  "revision": "84c3fa6805200632fadb4fe2795ef265511271c7",
+  "retrieved_at": "2026-10-15T19:52:08Z",
+  "license": "MIT",
+  "files": [
+    {
+      "upstream_path": "skills/claude-youtube/sub-skills/competitor.md",
+      "local_name": "competitor.md",
+      "sha256": "15bd05f6fd231346a4df16e262fc15d7a0abdd648d782e3d5678ecc51133f452"
+    },
+    {
+      "upstream_path": "LICENSE",
+      "local_name": "LICENSE",
+      "sha256": "a44143a3eb7ca36bfaa051e07e01c96b08e5a82c586be0ed2662590aa47183b6"
+    }
+  ]
+}

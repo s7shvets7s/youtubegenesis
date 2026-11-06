@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local 2D Video Plugin"
+  short_description: "Create code-rendered visuals locally"
+  default_prompt: "Use $2d-video-plugin to create local 2D visuals from the approved script."

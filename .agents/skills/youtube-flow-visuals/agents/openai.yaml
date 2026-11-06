@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Flow Visuals"
+  short_description: "Create consistent first frames and Flow motion prompts"
+  default_prompt: "Use $youtube-flow-visuals to prepare the visual style bible and shot prompts for this managed video."
