@@ -45,7 +45,7 @@ class FileProgress:
 
     def start_stage(self, name: str, index: int, stage_count: int) -> None:
         self.current = dict(name=name, label=STAGE_LABELS.get(name, name), index=index,
-                            fraction=None, status="running", message="Подготовка…", started_at=time.time())
+                            fraction=None, status="running", message="Preparing…", started_at=time.time())
         self.state["stages"].append(self.current)
         self._save()
 
@@ -65,7 +65,7 @@ class FileProgress:
 
     def complete_stage(self, name: str) -> None:
         if self.current is not None:
-            self.current.update(fraction=1.0, status="completed", finished_at=time.time(), message="Готово")
+            self.current.update(fraction=1.0, status="completed", finished_at=time.time(), message="Done")
         self.completed += 1
         self.state["overall"] = min(0.999, self.completed / max(1, self.count))
         self._save()

@@ -259,7 +259,7 @@ class WebTests(unittest.TestCase):
         )
         self.assertTrue(build_parser().parse_args(capcut_argv).audio_only)
         self.assertEqual(build_parser().parse_args(capcut_argv).capcut_scene_seconds, 8)
-        with self.assertRaisesRegex(ValueError, "0 или 2"):
+        with self.assertRaisesRegex(ValueError, "0 or 2"):
             build_argv(
                 {"mode": "script", "output_mode": "capcut",
                  "options": {"capcut_scene_seconds": 1}}, self.root, jobs,

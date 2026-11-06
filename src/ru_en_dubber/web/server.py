@@ -359,9 +359,10 @@ def handler(service: Service):
                 elif path.startswith("/api/v1/channels/"):
                     self._channel_route(path)
                 else:
-                    files = {"/": "index.html", "/app.js": "app.js", "/style.css": "style.css"}
+                    files = {"/": "index.html", "/app.js": "app.js", "/style.css": "style.css",
+                             "/i18n-en.json": "i18n-en.json", "/i18n-ru.json": "i18n-ru.json"}
                     if path not in files:
-                        raise FileNotFoundError("Страница не найдена")
+                        raise FileNotFoundError("Page not found")
                     target = Path(__file__).parent / "static" / files[path]
                     body = target.read_bytes()
                     kind = mimetypes.guess_type(target.name)[0] or "text/plain"
@@ -375,7 +376,7 @@ def handler(service: Service):
             except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 pass
             except OSError:
-                self._json({"error": "Не удалось прочитать данные workspace"}, 500)
+                self._json({"error": "Could not read workspace data"}, 500)
 
         def _channel_route(self, path: str) -> None:
             parts = path[len("/api/v1/") :].split("/")

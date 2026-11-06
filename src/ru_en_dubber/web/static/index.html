@@ -1,65 +1,71 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dubber · Студия</title>
+  <title>Dubber · Studio</title>
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="#pipeline"><span class="brand-mark">D</span> Dubber <span class="muted">studio</span></a>
-  <p class="nav-caption">Рабочее пространство</p>
+  <p class="nav-caption" data-i18n="ui.workspace">Workspace</p>
   <nav>
-    <a href="#pipeline" id="nav-pipeline">Пайплайн <span>01</span></a>
-    <a href="#channels" id="nav-channels">Каналы <span>02</span></a>
+    <a href="#pipeline" id="nav-pipeline"><span data-i18n="ui.pipeline">Pipeline</span> <span>01</span></a>
+    <a href="#channels" id="nav-channels"><span data-i18n="ui.channels">Channels</span> <span>02</span></a>
   </nav>
-  <div class="sidebar-bottom"><span class="status-dot"></span> Локальная обработка<p id="workspace"></p></div>
+  <div class="sidebar-bottom">
+    <label class="lang-switch"><span data-i18n="ui.language">Language</span>
+      <select id="lang-select"><option value="en">English</option><option value="ru">Русский</option></select>
+    </label>
+    <p><span class="status-dot"></span> <span data-i18n="ui.local_processing">Local processing</span></p>
+    <p id="workspace"></p>
+  </div>
 </aside>
 <main>
-  <header><div><p class="eyebrow">RU → EN / ВИДЕОПРОИЗВОДСТВО</p><h1 id="page-title">Пайплайн</h1></div><span id="connection" role="status">Подключение…</span></header>
+  <header><div><p class="eyebrow" data-i18n="ui.eyebrow">SCRIPT → VIDEO · RU → EN DUB</p><h1 id="page-title" data-i18n="ui.pipeline">Pipeline</h1></div><span id="connection" role="status" data-i18n="ui.conn_connecting">Connecting…</span></header>
   <div id="error" class="error" role="alert" hidden></div>
 
   <section id="pipeline-view">
-    <div class="intro"><h2>От исходника до монтажного пакета</h2><p>Выберите канал и назовите ролик. Технические ID и папки студия создаст сама.</p></div>
+    <div class="intro"><h2 data-i18n="ui.intro_title">From a script or source to an editable package</h2><p data-i18n="ui.intro_text">Pick a channel and name the video. The studio creates the technical IDs and folders for you.</p></div>
     <div class="workspace-grid">
       <form id="pipeline-form">
         <section class="panel">
-          <div class="panel-heading"><h2>Источник и запуск</h2><span>01</span></div>
+          <div class="panel-heading"><h2 data-i18n="ui.panel_source">Source &amp; launch</h2><span>01</span></div>
           <div class="fields">
-            <label>Ваш канал<select id="channel-select" required></select><small>Канал определяет папку исследований, сценариев и роликов.</small></label>
-            <label>Режим запуска<select id="mode"><option value="new">Новый ролик из видео</option><option value="script">Готовый сценарий из каталога</option><option value="script_import">Импорт внешнего сценария</option><option value="resume">Продолжить с распознавания</option><option value="translate">Начать с перевода</option><option value="tts">Повторить озвучку</option><option value="export">Повторить экспорт</option></select></label>
-            <label class="wide" id="video-title-label">Рабочее название ролика<input id="video-title" maxlength="160" placeholder="Например: Почему исчез старый Нью-Йорк"><small>Это название будет видно в каталоге; папка получит понятный slug и короткий стабильный ID.</small></label>
-            <label id="existing-video-label" hidden><span id="existing-video-caption">Ролик</span><select id="existing-video"></select><small id="script-readiness" hidden></small></label>
-            <label id="existing-run-label" hidden>Запуск<select id="existing-run"></select></label>
-            <label class="wide" id="source-label">Ссылка YouTube или путь к видео<input id="source" placeholder="https://youtube.com/watch?v=… или source/video.mp4"><small>Локальные исходники должны находиться в папке проекта.</small></label>
-            <label class="wide" id="script-label" hidden>Английский сценарий<textarea id="script-text" rows="12" placeholder="Вставьте текст, который должен прозвучать в видео…"></textarea><small>Озвучиваться будет весь текст. Заголовки и заметки для редактора удалите.</small></label>
-            <label class="wide" id="script-file-label" hidden>Или загрузите файл .txt / .md<input id="script-file" type="file" accept=".txt,.md,text/plain,text/markdown"><small>UTF-8, до 128 КБ. Текст можно править перед запуском.</small></label>
-            <label class="wide" id="script-output-label" hidden>Результат сценария<select id="script-output"><option value="video">Видео + озвучка</option><option value="audio">Озвучка WAV + SRT</option><option value="capcut">CapCut / Veo: озвучка по сценам + SRT</option></select><small>Используется CAPCUT_BEATS.srt. В настройках озвучки выберите длительность сцены: 0 сохраняет исходные таймкоды, 4, 8, 10 или другое число от 2 до 30 создаёт равные окна. Если реплика не помещается, запуск сообщит об ошибке. Видеоряд, музыка и пакет Premiere не создаются.</small></label>
+            <label><span data-i18n="ui.f_channel">Your channel</span><select id="channel-select" required></select><small data-i18n="ui.f_channel_help">The channel defines the research, script and video folders.</small></label>
+            <label><span data-i18n="ui.f_mode">Launch mode</span><select id="mode"><option value="new" data-i18n="ui.mode_new">New video from a source</option><option value="script" data-i18n="ui.mode_script">Ready script from the catalog</option><option value="script_import" data-i18n="ui.mode_script_import">Import an external script</option><option value="resume" data-i18n="ui.mode_resume">Resume from recognition</option><option value="translate" data-i18n="ui.mode_translate">Start from translation</option><option value="tts" data-i18n="ui.mode_tts">Repeat voice synthesis</option><option value="export" data-i18n="ui.mode_export">Repeat export</option></select></label>
+            <label class="wide" id="video-title-label"><span data-i18n="ui.f_video_title">Working video title</span><input id="video-title" maxlength="160" data-i18n-ph="ui.f_video_title_ph" placeholder="For example: Why Old New York Vanished"><small data-i18n="ui.f_video_title_help">This title appears in the catalog; the folder gets a readable slug and a short stable ID.</small></label>
+            <label id="existing-video-label" hidden><span id="existing-video-caption" data-i18n="ui.cap_video">Video</span><select id="existing-video"></select><small id="script-readiness" hidden></small></label>
+            <label id="existing-run-label" hidden><span data-i18n="ui.f_existing_run">Run</span><select id="existing-run"></select></label>
+            <label class="wide" id="source-label"><span data-i18n="ui.f_source">YouTube link or path to the video</span><input id="source" data-i18n-ph="ui.f_source_ph" placeholder="https://youtube.com/watch?v=… or source/video.mp4"><small data-i18n="ui.f_source_help">Local sources must be inside the project folder.</small></label>
+            <label class="wide" id="script-label" hidden><span data-i18n="ui.f_script">English script</span><textarea id="script-text" rows="12" data-i18n-ph="ui.f_script_ph" placeholder="Paste the text that should be spoken in the video…"></textarea><small data-i18n="ui.f_script_help">The whole text will be voiced. Remove headings and editor notes.</small></label>
+            <label class="wide" id="script-file-label" hidden><span data-i18n="ui.f_script_file">Or upload a .txt / .md file</span><input id="script-file" type="file" accept=".txt,.md,text/plain,text/markdown"><small data-i18n="ui.f_script_file_help">UTF-8, up to 128 KB. You can edit the text before launch.</small></label>
+            <label class="wide" id="script-output-label" hidden><span data-i18n="ui.f_script_output">Script output</span><select id="script-output"><option value="video" data-i18n="ui.out_video">Video + voice</option><option value="audio" data-i18n="ui.out_audio">Voice WAV + SRT</option><option value="capcut" data-i18n="ui.out_capcut">CapCut / Veo: voice per scene + SRT</option></select><small data-i18n="ui.f_script_output_help">Uses CAPCUT_BEATS.srt. In voice settings pick the scene length.</small></label>
           </div>
         </section>
         <section class="panel">
-          <div class="panel-heading"><h2>Настройки пайплайна</h2><span id="settings-count"></span></div>
-          <div class="preset-bar"><button type="button" id="save-preset">Сохранить настройки</button><button type="button" id="load-preset">Загрузить</button><button type="button" id="reset-preset">По умолчанию</button></div>
-          <label class="search-label"><input id="settings-search" type="search" placeholder="Найти настройку…" aria-label="Поиск настроек"></label>
+          <div class="panel-heading"><h2 data-i18n="ui.panel_settings">Pipeline settings</h2><span id="settings-count"></span></div>
+          <div class="preset-bar"><button type="button" id="save-preset" data-i18n="ui.preset_save">Save settings</button><button type="button" id="load-preset" data-i18n="ui.preset_load">Load</button><button type="button" id="reset-preset" data-i18n="ui.preset_reset">Defaults</button></div>
+          <label class="search-label"><input id="settings-search" type="search" data-i18n-ph="ui.settings_search_ph" placeholder="Find a setting…" data-i18n-aria="ui.settings_search_aria" aria-label="Search settings"></label>
           <div id="settings"></div>
         </section>
-        <div class="launch-bar"><span id="form-note">Все изменения применяются к следующему запуску.</span><button id="launch" class="primary" type="submit">Запустить пайплайн <span>↗</span></button></div>
+        <div class="launch-bar"><span id="form-note" data-i18n="ui.form_note_default">All changes apply to the next run.</span><button id="launch" class="primary" type="submit"><span data-i18n="ui.launch">Run the pipeline</span> <span>↗</span></button></div>
       </form>
-      <aside class="monitor panel"><div class="panel-heading"><h2>Обработка</h2><span id="run-status">Ожидание</span></div><div id="progress-content"><div class="empty"><h3>Можно начинать</h3><p>Здесь появятся этапы, текущая операция и прогресс обработки.</p></div></div></aside>
+      <aside class="monitor panel"><div class="panel-heading"><h2 data-i18n="ui.panel_processing">Processing</h2><span id="run-status" data-i18n="ui.run_status_idle">Idle</span></div><div id="progress-content"><div class="empty"><h3 data-i18n="ui.empty_ready_title">Ready to start</h3><p data-i18n="ui.empty_ready_text">Stages, the current operation and progress will appear here.</p></div></div></aside>
     </div>
   </section>
 
   <section id="channels-view" hidden>
-    <form id="channel-form" class="panel compact-form"><label>Название нового канала<input id="new-channel-name" maxlength="160" placeholder="Например: История городов" required></label><button class="primary" type="submit">Создать канал</button></form>
-    <div class="catalog-toolbar"><input id="channel-search" type="search" placeholder="Найти канал…" aria-label="Найти канал"><button id="refresh-channels">Обновить</button></div>
+    <form id="channel-form" class="panel compact-form"><label><span data-i18n="ui.ch_new_label">New channel name</span><input id="new-channel-name" maxlength="160" data-i18n-ph="ui.ch_new_ph" placeholder="For example: City Histories" required></label><button class="primary" type="submit" data-i18n="ui.ch_create">Create channel</button></form>
+    <div class="catalog-toolbar"><input id="channel-search" type="search" data-i18n-ph="ui.ch_search_ph" placeholder="Find a channel…" data-i18n-aria="ui.ch_search_ph" aria-label="Find a channel"><button id="refresh-channels" data-i18n="ui.ch_refresh">Refresh</button></div>
     <p id="channel-warnings" role="status"></p><div id="channel-list"></div>
   </section>
-  <section id="channel-view" hidden><a href="#channels" class="back">← Все каналы</a><div id="channel-content"></div></section>
-  <section id="video-view" hidden><a id="video-back" href="#channels" class="back">← Канал</a><div id="video-content"></div></section>
-  <section id="run-view" hidden><a id="run-back" href="#channels" class="back">← Ролик</a><div id="job-content"></div></section>
-  <footer>Материалы хранятся в папке <code>channels</code>: отдельно по каналам, роликам и запускам.</footer>
+  <section id="channel-view" hidden><a href="#channels" class="back" data-i18n="ui.back_channels">← All channels</a><div id="channel-content"></div></section>
+  <section id="video-view" hidden><a id="video-back" href="#channels" class="back" data-i18n="ui.back_channel">← Channel</a><div id="video-content"></div></section>
+  <section id="run-view" hidden><a id="run-back" href="#channels" class="back" data-i18n="ui.back_video">← Video</a><div id="job-content"></div></section>
+  <footer data-i18n-html="ui.footer">Materials are stored in the <code>channels</code> folder: separated by channel, video and run.</footer>
 </main>
 </body>
 </html>

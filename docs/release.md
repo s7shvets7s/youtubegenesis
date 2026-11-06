@@ -27,7 +27,8 @@ Manual acceptance is still required for:
   timing, separate tracks, relinkable media, captions, and ad-removal boundaries.
 - Listening and viewing review of the full output.
 
-The current Web UI contains Russian labels. CUDA, model setup, live APIs, and
+The Web UI is in English by default with a Russian toggle; some runtime pipeline
+progress messages are still Russian. CUDA, model setup, live APIs, and
 Premiere imports are not exercised by GitHub CI. The project has no automated
 whole-channel research or Google Flow integration. MuseTalk setup follows an
 external checkout and is not a complete reproducible lock.

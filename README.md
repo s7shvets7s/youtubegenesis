@@ -1,10 +1,12 @@
 # RU → EN Dubber
 
-**Turn a Russian video into an English dub you can still edit.**
+**Turn an English script into a finished, editable video — or dub a Russian video into English.**
 
-A local Windows pipeline for transcription, translation, voice synthesis, timing,
-and an editable Adobe Premiere package. Start with one video, a YouTube URL, or an
-English narration script. Keep the source, inspect each stage, and refine the edit.
+A local Windows pipeline that builds an editable Adobe Premiere package from an
+English narration script: voice synthesis, timing, rebuilt visuals, music, and an
+optional avatar. The same pipeline also dubs a Russian video or YouTube URL into
+English (transcription → translation → the same finishing stages). Keep the source,
+inspect each stage, and refine the edit.
 
 **Beta · Windows · Python 3.11+ · MIT**
 
@@ -12,23 +14,25 @@ English narration script. Keep the source, inspect each stage, and refine the ed
 
 ## Why use it?
 
+- **Script → video.** Paste or upload an English script and get a voiced,
+  rebuilt-visual video with captions — or a voice WAV + SRT, or CapCut/Veo scene
+  beats. No source footage required.
+- **Russian → English dub.** Point it at a Russian video or YouTube URL and it
+  transcribes (WhisperX), translates (Qwen via llama.cpp) and voices the result.
 - **Editable delivery.** Export FCP 7 XML, separate voice/background tracks, media,
   captions, and reports rather than a single flattened video.
-- **Local speech and translation.** Run WhisperX, Qwen through llama.cpp, and
-  Chatterbox in separate environments. Optional media searches use external services.
 - **Inspectable runs.** A portable `manifest.json` records stage state and relative
-  artifact paths. A loopback Web UI shows channels, videos, runs, and progress.
-- **Flexible input.** Dub an existing video or build narration from an English
-  script, including an audio-only route.
+  artifact paths. A loopback Web UI (English, with a Russian toggle) shows channels,
+  videos, runs, and progress.
 - **Optional finishing.** Speech mastering, licensed visual replacements, music,
   and a MuseTalk avatar are separate, configurable stages.
 
 ```mermaid
 flowchart LR
-    A[Russian video] --> B[WhisperX]
+    S[English script] --> D[Speech synthesis]
+    A[Russian video / YouTube] --> B[WhisperX]
     B --> C[Qwen translation]
-    C --> D[Speech synthesis]
-    S[English script] --> D
+    C --> D
     D --> E[Speech processing and timing]
     E --> F[Visuals / music / avatar]
     F --> G[Editable Premiere package]
@@ -45,8 +49,9 @@ py -3.12 -m venv .venv
 ```
 
 Open [the local interface](http://127.0.0.1:8765). This starts the catalog and UI;
-processing media requires the [runtime setup](docs/installation.md). The current
-Web UI contains Russian labels. The CLI help and this documentation are in English.
+processing media requires the [runtime setup](docs/installation.md). The Web UI is
+in English by default with a Russian toggle in the sidebar. The CLI help and this
+documentation are in English.
 
 > The screenshots below use a synthetic demo workspace; no production channels or
 > media are shown.
